@@ -720,6 +720,22 @@ public:
   }
 };
 
+class LQFullyConnectedPrinter : public OpPrinter
+{
+public:
+  void options(const circle::Operator *op, std::ostream &os) const override
+  {
+    if (auto *params = op->builtin_options_as_LQFullyConnectedOptions())
+    {
+      os << "    ";
+      os << "Activation(" << EnumNameActivationFunctionType(params->fused_activation_function())
+         << ") ";
+      os << "weights_hidden_size(" << params->weights_hidden_size() << ") ";
+      os << std::endl;
+    }
+  }
+};
+
 class BCQFullyConnectedPrinter : public OpPrinter
 {
 public:
@@ -830,6 +846,7 @@ OpPrinterRegistry::OpPrinterRegistry()
   _op_map[circle::BuiltinOperator_CUSTOM] = make_unique<CustomOpPrinter>();
 
   // Circle only
+  _op_map[circle::BuiltinOperator_LQ_FULLY_CONNECTED] = make_unique<LQFullyConnectedPrinter>();
   _op_map[circle::BuiltinOperator_BCQ_FULLY_CONNECTED] = make_unique<BCQFullyConnectedPrinter>();
   _op_map[circle::BuiltinOperator_BCQ_GATHER] = make_unique<BCQGatherPrinter>();
 }
