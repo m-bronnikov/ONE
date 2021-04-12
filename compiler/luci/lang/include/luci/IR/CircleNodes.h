@@ -130,6 +130,7 @@
 #include "Nodes/CircleWhile.h"
 #include "Nodes/CircleZerosLike.h"
 // Circle only
+#include "Nodes/CircleLQFullyConnected.h"
 #include "Nodes/CircleBCQFullyConnected.h"
 #include "Nodes/CircleBCQGather.h"
 #include "Nodes/CircleInstanceNorm.h"
