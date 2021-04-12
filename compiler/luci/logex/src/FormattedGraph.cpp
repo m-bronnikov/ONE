@@ -312,6 +312,7 @@ private:
   IMPLEMENT(luci::CircleWhile)
   IMPLEMENT(luci::CircleZerosLike)
   // Circle Only
+  IMPLEMENT(luci::CircleLQFullyConnected)
   IMPLEMENT(luci::CircleBCQFullyConnected)
   IMPLEMENT(luci::CircleBCQGather)
   IMPLEMENT(luci::CircleInstanceNorm)
@@ -1236,6 +1237,21 @@ bool summary_node(const locop::SymbolTable *tbl, const luci::CircleOutput *node,
   return true;
 }
 
+bool summary_node(const locop::SymbolTable *tbl, const luci::CircleLQFullyConnected *node,
+                  locop::NodeSummary &s)
+{
+  assert(node->fusedActivationFunction() != luci::FusedActFunc::UNDEFINED);
+  s.args().append("input", tbl->lookup(node->input()));
+  s.args().append("weights_scales", tbl->lookup(node->input_scales()));
+  s.args().append("weights_scales", tbl->lookup(node->weights_scales()));
+  s.args().append("weights_binary", tbl->lookup(node->weights_binary()));
+  s.args().append("bias", tbl->lookup(node->bias()));
+  s.args().append("fused", to_str(node->fusedActivationFunction()));
+  s.args().append("weights_hidden_size", pepper::str(node->weights_hidden_size()));
+  s.state(locop::NodeSummary::State::Complete);
+  return true;
+}
+
 bool summary_node(const locop::SymbolTable *tbl, const luci::CircleBCQFullyConnected *node,
                   locop::NodeSummary &s)
 {
@@ -1968,6 +1984,12 @@ bool CircleNodeSummaryBuilder::summary(const luci::CircleInput *, locop::NodeSum
 }
 
 bool CircleNodeSummaryBuilder::summary(const luci::CircleOutput *node, locop::NodeSummary &s) const
+{
+  return summary_node(tbl(), node, s);
+}
+
+bool CircleNodeSummaryBuilder::summary(const luci::CircleLQFullyConnected *node,
+                                       locop::NodeSummary &s) const
 {
   return summary_node(tbl(), node, s);
 }
