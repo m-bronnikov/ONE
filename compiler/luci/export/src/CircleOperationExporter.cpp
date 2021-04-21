@@ -729,6 +729,7 @@ public:
   void visit(luci::CircleWhile *) final;
   void visit(luci::CircleZerosLike *) final;
   // Circle only
+  void visit(luci::CircleLQFullyConnected *) final;
   void visit(luci::CircleBCQFullyConnected *) final;
   void visit(luci::CircleBCQGather *) final;
   void visit(luci::CircleInstanceNorm *) final;
@@ -1458,6 +1459,15 @@ void OperationExporter::visit(luci::CircleZerosLike *node)
 {
   export_simple(node, circle::BuiltinOperator_ZEROS_LIKE, circle::BuiltinOptions_ZerosLikeOptions,
                 CreateZerosLikeOptions(_ctx.builder).Union());
+}
+
+void OperationExporter::visit(luci::CircleLQFullyConnected *node)
+{
+  export_simple(node, circle::BuiltinOperator_LQ_FULLY_CONNECTED,
+                circle::BuiltinOptions_LQFullyConnectedOptions,
+                CreateLQFullyConnectedOptions(_ctx.builder, node->weights_hidden_size(),
+                                              to_circle_actfunc(node->fusedActivationFunction()))
+                  .Union());
 }
 
 void OperationExporter::visit(luci::CircleBCQFullyConnected *node)
