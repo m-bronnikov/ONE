@@ -25,6 +25,7 @@
 #include "Nodes/CircleAveragePool2D.h"
 #include "Nodes/CircleBatchMatMul.h"
 #include "Nodes/CircleBatchToSpaceND.h"
+#include "Nodes/CircleLQFullyConnected.h"
 #include "Nodes/CircleBCQFullyConnected.h"
 #include "Nodes/CircleBCQGather.h"
 #include "Nodes/CircleBidirectionalSequenceLSTM.h"

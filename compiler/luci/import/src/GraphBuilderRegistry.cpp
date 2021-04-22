@@ -35,6 +35,7 @@ GraphBuilderRegistry::GraphBuilderRegistry()
   CIRCLE_NODE(AVERAGE_POOL_2D, CircleAveragePool2DGraphBuilder);                           // 1
   CIRCLE_NODE(BATCH_MATMUL, CircleBatchMatMulGraphBuilder);                                // 126
   CIRCLE_NODE(BATCH_TO_SPACE_ND, CircleBatchToSpaceNDGraphBuilder);                        // 37
+  CIRCLE_NODE(LQ_FULLY_CONNECTED, CircleLQFullyConnectedGraphBuilder);                     // 200
   CIRCLE_NODE(BCQ_FULLY_CONNECTED, CircleBCQFullyConnectedGraphBuilder);                   // 253
   CIRCLE_NODE(BCQ_GATHER, CircleBCQGatherGraphBuilder);                                    // 252
   CIRCLE_NODE(BIDIRECTIONAL_SEQUENCE_LSTM, CircleBidirectionalSequenceLSTMGraphBuilder);   // 52
