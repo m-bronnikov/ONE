@@ -1,0 +1,55 @@
+operand {
+  name: "ifm"
+  type: FLOAT32
+  shape { dim: 1 dim: 32 }
+}
+operand {
+  name: "input_scales"
+  type: FLOAT32
+  shape { dim: 1 }
+  filler {
+    tag: "gaussian"
+    arg: "0.0"
+    arg: "1.0"
+  }
+}
+operand {
+  name: "weights_scales"
+  type: FLOAT32
+  shape { dim: 32 dim: 1 }
+  filler {
+    tag: "gaussian"
+    arg: "0.0"
+    arg: "1.0"
+  }
+}
+operand {
+  name: "weights_binary"
+  type: INT32
+  shape { dim: 32 dim: 1 dim: 1 }
+  filler {
+    tag: "gaussian"
+    arg: "0.0"
+    arg: "32.0"
+  }
+}
+operand {
+  name: "ofm"
+  type: FLOAT32
+  shape { dim: 1 dim: 32 }
+}
+operation {
+  type: "LQFullyConnected"
+  input: "ifm"
+  input: "input_scales"
+  input: "weights_scales"
+  input: "weights_binary"
+  input: ""
+  output: "ofm"
+  lq_fully_connected_options {
+    weights_hidden_size: 32
+    activation: NONE
+  }
+}
+input: "ifm"
+output: "ofm"
