@@ -528,6 +528,11 @@ struct TypeInferenceAlgorithm final : public luci::CircleNodeVisitor<loco::DataT
   }
 
   // Circle Only
+  loco::DataType visit(const luci::CircleLQFullyConnected *) final
+  {
+    return loco::DataType::FLOAT32;
+  }
+
   loco::DataType visit(const luci::CircleBCQFullyConnected *) final
   {
     return loco::DataType::FLOAT32;

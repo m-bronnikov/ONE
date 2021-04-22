@@ -1675,6 +1675,24 @@ loco::NodeShape infer_unique(const luci::CircleUnique *node)
 }
 
 // Circle Only
+loco::NodeShape infer_lq_fully_connected(const luci::CircleLQFullyConnected *node)
+{
+  loco::TensorShape out_shape;
+
+  auto input_shape = luci::shape_get(node->input()).as<loco::TensorShape>();
+  auto weights_binary = loco::must_cast<luci::CircleConst *>(node->weights_binary());
+
+  LUCI_ASSERT(input_shape.rank() == 2, "Input rank for LQFullyConnected should be equal to 2");
+  LUCI_ASSERT(weights_binary->rank() == 3,
+              "Binary weights rank for LQFullyConnected should be equal to 3");
+
+  out_shape.rank(2);
+  out_shape.dim(0) = input_shape.dim(0).value();
+  out_shape.dim(1) = weights_binary->dim(0).value();
+
+  return loco::NodeShape{out_shape};
+}
+
 loco::NodeShape infer_bcq_fully_connected(const luci::CircleBCQFullyConnected *node)
 {
   loco::TensorShape out_shape;
@@ -2420,6 +2438,11 @@ public:
   }
 
   // Circle Only
+  loco::NodeShape visit(const luci::CircleLQFullyConnected *node) final
+  {
+    return infer_lq_fully_connected(node);
+  }
+
   loco::NodeShape visit(const luci::CircleBCQFullyConnected *node) final
   {
     return infer_bcq_fully_connected(node);
