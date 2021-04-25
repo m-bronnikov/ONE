@@ -1,0 +1,59 @@
+/*
+ * Copyright (c) 2020 Samsung Electronics Co., Ltd. All Rights Reserved
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+#include "LQFullyConnected.h"
+
+#include "Convert.h"
+
+namespace circlechef
+{
+
+void CircleOpLQFullyConnected::filler(const circle::Operator *op, CircleImport *import,
+                                      circlechef::ModelRecipe *model_recipe) const
+{
+  const std::vector<int32_t> &inputs = as_index_vector(op->inputs());
+
+  import->set_tensor_filler(inputs[1]);
+  import->set_tensor_filler(inputs[2]);
+  import->set_tensor_filler(inputs[4]);
+
+  const circle::Tensor *tensor2 = import->tensors()->Get(inputs[3]);
+  assert(tensor2->type() == circle::TensorType::TensorType_INT32);
+  const circle::Buffer *buffer2 = import->buffers()->Get(tensor2->buffer());
+  auto vec2 = extract_buffer<int32_t>(buffer2);
+  import->set_tensor_filler(inputs[3], vec2);
+}
+
+circlechef::Operation *CircleOpLQFullyConnected::build(const circle::Operator *op,
+                                                       CircleImport *import,
+                                                       circlechef::ModelRecipe *model_recipe) const
+{
+  auto op_params = op->builtin_options_as_LQFullyConnectedOptions();
+  assert(op_params != nullptr);
+
+  auto operation = model_recipe->add_operation();
+
+  operation->set_type("LQFullyConnected");
+
+  auto op_options = operation->mutable_lq_fully_connected_options();
+
+  op_options->set_weights_hidden_size(op_params->weights_hidden_size());
+  op_options->set_activation(as_circlechef_activation(op_params->fused_activation_function()));
+
+  return operation;
+}
+
+} // namespace circlechef

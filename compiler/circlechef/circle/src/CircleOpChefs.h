@@ -19,6 +19,7 @@
 
 // In alphabet order
 #include "Op/BatchMatMul.h"
+#include "Op/LQFullyConnected.h"
 #include "Op/BCQFullyConnected.h"
 #include "Op/BCQGather.h"
 #include "Op/InstanceNorm.h"
