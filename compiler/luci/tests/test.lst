@@ -213,6 +213,8 @@ addread(Net_UnpackAdd_001)
 addread(Net_ZeroDim_001)
 
 # from res/CircleRecipes
+addread(LQFullyConnected_000)
+addread(LQFullyConnected_001)
 addread(BCQFullyConnected_000)
 addread(BCQFullyConnected_001)
 addread(BCQGather_000)
@@ -433,6 +435,8 @@ addwrite(Net_UnpackAdd_001)
 addwrite(Net_ZeroDim_001)
 
 # from res/CircleRecipes
+addwrite(LQFullyConnected_000)
+addwrite(LQFullyConnected_001)
 addwrite(BCQFullyConnected_000)
 addwrite(BCQFullyConnected_001)
 addwrite(BCQGather_000)
