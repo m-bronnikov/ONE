@@ -17,6 +17,8 @@
 
 #include "kernels/Utils.h"
 
+#include "tensorflow/lite/kernels/internal/reference/tanh.h"
+
 #include <cassert>
 #include <cmath>
 #include <limits>
@@ -114,6 +116,36 @@ void calculateActivationRangeQuantized(Activation activation, const Tensor *outp
 
   calculateActivationRangeQuantizedImpl(activation, qmin, qmax, output, activation_min,
                                         activation_max);
+}
+
+void computeMinMaxActivationInplace(Activation activation, float *data, int32_t size)
+{
+  float activation_min, activation_max;
+  calculateActivationRange(activation, &activation_min, &activation_max);
+
+  for (int32_t i = 0; i < size; ++i)
+  {
+    data[i] = tflite::ActivationFunctionWithMinMax(data[i], activation_min, activation_max);
+  }
+}
+
+void computeActivationInplace(Activation activation, float *data, const int32_t size)
+{
+  switch (activation)
+  {
+    case Activation::RELU:
+    case Activation::RELU_N1_TO_1:
+    case Activation::RELU6:
+      computeMinMaxActivationInplace(activation, data, size);
+      break;
+    case Activation::NONE:
+      break;
+    case Activation::TANH:
+      tflite::reference_ops::Tanh({size}, data, {size}, data);
+      break;
+    default:
+      throw std::runtime_error("Unsupported activation.");
+  }
 }
 
 void quantizeMultiplier(double double_multiplier, int32_t *quantized_multiplier, int *shift)

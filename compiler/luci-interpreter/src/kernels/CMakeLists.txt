@@ -31,6 +31,8 @@ set(SOURCES
     Equal.cpp
     FullyConnected.h
     FullyConnected.cpp
+    LQFullyConnected.h
+    LQFullyConnected.cpp
     Greater.h
     Greater.cpp
     GreaterEqual.h
@@ -130,6 +132,8 @@ list(APPEND SOURCES
     BinaryOpCommon.h
     Utils.h
     Utils.cpp
+    LQBinarizer.h
+    LQBinarizer.cpp
     ${TensorFlowSource_DIR}/tensorflow/lite/kernels/internal/quantization_util.cc)
 
 add_library(luci_interpreter_kernels STATIC ${SOURCES})
@@ -166,6 +170,7 @@ set(TEST_SOURCES
     FloorDiv.test.cpp
     Equal.test.cpp
     FullyConnected.test.cpp
+    LQFullyConnected.test.cpp
     Greater.test.cpp
     GreaterEqual.test.cpp
     If.test.cpp

@@ -83,6 +83,12 @@ struct FullyConnectedParams
   Activation activation;
 };
 
+struct LQFullyConnectedParams
+{
+  Activation activation;
+  uint32_t hidden_size;
+};
+
 struct InstanceNormParams
 {
   float epsilon;

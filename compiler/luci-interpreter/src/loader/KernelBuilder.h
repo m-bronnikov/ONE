@@ -56,6 +56,7 @@ public:
   std::unique_ptr<Kernel> visit(const luci::CircleFloorDiv *node) override;
   std::unique_ptr<Kernel> visit(const luci::CircleEqual *node) override;
   std::unique_ptr<Kernel> visit(const luci::CircleFullyConnected *node) override;
+  std::unique_ptr<Kernel> visit(const luci::CircleLQFullyConnected *node) override;
   std::unique_ptr<Kernel> visit(const luci::CircleGreater *node) override;
   std::unique_ptr<Kernel> visit(const luci::CircleGreaterEqual *node) override;
   std::unique_ptr<Kernel> visit(const luci::CircleIf *node) override;

@@ -31,6 +31,7 @@
 #include "kernels/FloorDiv.h"
 #include "kernels/Equal.h"
 #include "kernels/FullyConnected.h"
+#include "kernels/LQFullyConnected.h"
 #include "kernels/Greater.h"
 #include "kernels/GreaterEqual.h"
 #include "kernels/If.h"
@@ -354,6 +355,25 @@ std::unique_ptr<Kernel> KernelBuilder::visit(const luci::CircleFullyConnected *n
   params.activation = node->fusedActivationFunction();
 
   return std::make_unique<kernels::FullyConnected>(input, weights, bias, output, params);
+}
+
+std::unique_ptr<Kernel> KernelBuilder::visit(const luci::CircleLQFullyConnected *node)
+{
+  assert(node->arity() == 5);
+
+  const Tensor *input = getInputTensor(node->input());
+  const Tensor *input_scales = getInputTensor(node->input_scales());
+  const Tensor *weights_scales = getInputTensor(node->weights_scales());
+  const Tensor *weights_binary = getInputTensor(node->weights_binary());
+  const Tensor *bias = getOptionalInputTensor(node->bias());
+  Tensor *output = getOutputTensor(node);
+
+  LQFullyConnectedParams params{};
+  params.activation = node->fusedActivationFunction();
+  params.hidden_size = node->weights_hidden_size();
+
+  return std::make_unique<kernels::LQFullyConnected>(input, input_scales, weights_scales,
+                                                     weights_binary, bias, output, params);
 }
 
 std::unique_ptr<Kernel> KernelBuilder::visit(const luci::CircleGreater *node)

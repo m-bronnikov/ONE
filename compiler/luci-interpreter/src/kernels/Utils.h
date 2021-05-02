@@ -71,15 +71,24 @@ inline int32_t computeOutputSize(Padding padding, int32_t image_size, int32_t fi
   }
 }
 
+inline int32_t calcOffset(const Shape &shape, int32_t d0, int32_t d1)
+{
+  return d0 * shape.dim(1) + d1;
+}
+
 inline int32_t calcOffset(const Shape &shape, int32_t d0, int32_t d1, int32_t d2, int32_t d3)
 {
   return ((d0 * shape.dim(1) + d1) * shape.dim(2) + d2) * shape.dim(3) + d3;
 }
 
+inline uint32_t ceil_div(uint32_t num, uint32_t denom) { return (num + denom - 1) / denom; }
+
 void calculateActivationRange(Activation activation, float *activation_min, float *activation_max);
 
 void calculateActivationRangeQuantized(Activation activation, const Tensor *output,
                                        int32_t *activation_min, int32_t *activation_max);
+
+void computeActivationInplace(Activation activation, float *data, const int32_t size);
 
 // Decompose a double multiplier into a Q0.31 int32 representation of its
 // significand, and shift representation of its exponent.
