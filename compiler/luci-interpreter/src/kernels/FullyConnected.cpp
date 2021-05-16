@@ -87,19 +87,18 @@ void FullyConnected::execute() const
 
 void FullyConnected::evalFloat() const
 {
-  float activation_min{};
-  float activation_max{};
-  calculateActivationRange(_params.activation, &activation_min, &activation_max);
-
   tflite::FullyConnectedParams params{};
-  params.float_activation_min = activation_min;
-  params.float_activation_max = activation_max;
+  params.float_activation_min = std::numeric_limits<float>::lowest();
+  params.float_activation_max = std::numeric_limits<float>::max();
   params.weights_format = tflite::FullyConnectedWeightsFormat::kDefault;
 
   tflite::reference_ops::FullyConnected(
     params, getTensorShape(input()), getTensorData<float>(input()), getTensorShape(weights()),
     getTensorData<float>(weights()), getTensorShape(bias()), getTensorData<float>(bias()),
     getTensorShape(output()), getTensorData<float>(output()));
+
+  computeActivationInplace(_params.activation, getTensorData<float>(output()),
+                           getTensorShape(output()).FlatSize());
 }
 
 void FullyConnected::evalQuantized() const
