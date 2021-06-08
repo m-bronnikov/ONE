@@ -123,10 +123,15 @@ void LQFullyConnected::evalFloat() const
   {
     // quantize batch of input data
     input_binary->quantize_and_pack(&input_data[calcOffset(in_shape, batch, 0)]);
+
+    // pointer to output vector
+    float *output_buffer = &output_data[calcOffset(out_shape, batch, 0)];
+
+    // matrix multiplication between weights and input vector
     for (int32_t out_idx = 0; out_idx < output_size; ++out_idx)
     {
       // init value with bias if exist
-      float output_total = bias_data ? bias_data[out_idx] : 0.0f;
+      float output_total = 0.0f;
 
       // calculate overall output float value
       for (int32_t bi = 0; bi < input_encode_bits; ++bi)
@@ -146,7 +151,16 @@ void LQFullyConnected::evalFloat() const
         }
       }
 
-      output_data[calcOffset(out_shape, batch, out_idx)] = output_total;
+      output_buffer[out_idx] = output_total;
+    }
+
+    // add bias if exist
+    if (bias_data)
+    {
+      for (int32_t out_idx = 0; out_idx < output_size; ++out_idx)
+      {
+        output_buffer[out_idx] += bias_data[out_idx];
+      }
     }
   }
 
