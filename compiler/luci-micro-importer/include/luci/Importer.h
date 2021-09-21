@@ -33,20 +33,11 @@ namespace luci
 class Importer final
 {
 public:
-  Importer();
-
-public:
-  explicit Importer(const GraphBuilderSource *source) : _source{source}
-  {
-    // DO NOTHING
-  }
+  explicit Importer() = default;
 
 public:
   std::unique_ptr<loco::Graph> import(const circle::Model *model) const;
   std::unique_ptr<Module> importModule(const circle::Model *model) const;
-
-private:
-  const GraphBuilderSource *_source = nullptr;
 };
 
 } // namespace luci
