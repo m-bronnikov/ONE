@@ -18,7 +18,6 @@
 #define MICRO_CORE_RUNTIMEMODULE_H
 
 #include "core/RuntimeGraph.h"
-#include "core/EventNotifier.h"
 #include "micro/MemoryManager.h"
 
 #include <memory>
@@ -30,9 +29,9 @@ namespace micro
 class RuntimeModule
 {
 public:
-  explicit RuntimeModule(EventNotifier *event_notifier) : _event_notifier(event_notifier) {}
-
-  EventNotifier *getEventNotifier() const { return _event_notifier; }
+  explicit RuntimeModule()
+  { /* Do nothing */
+  }
 
   RuntimeGraph *addGraph(IMemoryManager *memory_manager)
   {
@@ -51,7 +50,6 @@ public:
 private:
   RuntimeGraph *getMainGraph() const { return _graphs[0].get(); }
 
-  EventNotifier *const _event_notifier;
   std::vector<std::unique_ptr<RuntimeGraph>> _graphs;
 };
 

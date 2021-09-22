@@ -24,57 +24,9 @@
 namespace micro
 {
 
-namespace
-{
-
-class EventNotifierImpl final : public EventNotifier
-{
-public:
-  EventNotifierImpl(const RuntimeToIR &runtime_to_ir,
-                    const std::vector<ExecutionObserver *> &observers)
-    : _runtime_to_ir(runtime_to_ir), _observers(observers)
-  {
-  }
-
-  void postTensorWrite(const Tensor *tensor) override
-  {
-    assert(tensor != nullptr);
-    for (const auto &observer : _observers)
-    {
-      observer->postTensorWrite(_runtime_to_ir.tensor_to_node.at(tensor), tensor);
-    }
-  }
-
-  void preOperatorExecute(const Kernel *kernel) override
-  {
-    assert(kernel != nullptr);
-    for (const auto &observer : _observers)
-    {
-      observer->preOperatorExecute(_runtime_to_ir.kernel_to_node.at(kernel));
-    }
-  }
-
-  void postOperatorExecute(const Kernel *kernel) override
-  {
-    assert(kernel != nullptr);
-    for (const auto &observer : _observers)
-    {
-      observer->postOperatorExecute(_runtime_to_ir.kernel_to_node.at(kernel));
-    }
-  }
-
-private:
-  const RuntimeToIR &_runtime_to_ir;
-  const std::vector<ExecutionObserver *> &_observers;
-};
-
-} // namespace
-
 Interpreter::Interpreter(const luci::Module *module, micro::IMemoryManager *memory_manager)
 {
-  _runtime_to_ir = std::make_unique<RuntimeToIR>();
-  _event_notifier = std::make_unique<EventNotifierImpl>(*_runtime_to_ir, _observers);
-  _runtime_module = std::make_unique<RuntimeModule>(_event_notifier.get());
+  _runtime_module = std::make_unique<RuntimeModule>();
 
   if (memory_manager == nullptr)
   {
@@ -86,8 +38,7 @@ Interpreter::Interpreter(const luci::Module *module, micro::IMemoryManager *memo
     _memory_manager = memory_manager;
   }
 
-  ModuleLoader loader(module, _runtime_module.get(), *_runtime_to_ir, _node_to_tensor,
-                      _memory_manager);
+  ModuleLoader loader(module, _runtime_module.get(), _memory_manager);
   loader.load();
 }
 
@@ -120,20 +71,5 @@ void Interpreter::readOutputTensor(const luci::CircleOutput *output_node, void *
 }
 
 void Interpreter::interpret() { _runtime_module->execute(); }
-
-void Interpreter::attachObserver(ExecutionObserver *observer)
-{
-  if (std::find(_observers.cbegin(), _observers.cend(), observer) != _observers.cend())
-    throw std::runtime_error("Observer is already attached.");
-  _observers.push_back(observer);
-}
-
-ExecutionObserver::~ExecutionObserver() = default;
-
-void ExecutionObserver::postTensorWrite(const luci::CircleNode *, const Tensor *) {}
-
-void ExecutionObserver::preOperatorExecute(const luci::CircleNode *) {}
-
-void ExecutionObserver::postOperatorExecute(const luci::CircleNode *) {}
 
 } // namespace micro

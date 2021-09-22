@@ -148,10 +148,6 @@ public:
     _data = buffer;
   }
 
-  bool is_observable() const { return _is_observable; }
-
-  void set_observable(bool value) { _is_observable = value; }
-
   bool is_allocatable() const { return _is_allocatable; }
 
   void set_allocatable(bool value) { _is_allocatable = value; }

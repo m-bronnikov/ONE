@@ -36,7 +36,6 @@ std::unique_ptr<Kernel> build_kernel_CircleConv2D(const luci::CircleNode *circle
 
   auto im2col =
     std::make_unique<Tensor>(input->element_type(), Shape({}), AffineQuantization{}, "");
-  im2col->set_observable(false);
   im2col->set_data_buffer(nullptr);
   Tensor *tmp = helper.getRuntimeGraph(node->graph())->addTensor(std::move(im2col));
 

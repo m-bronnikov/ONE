@@ -1,7 +1,6 @@
 set(SOURCES
     "${MICRO_INCLUDE_DIR}/micro/core/DataType.h"
     "${MICRO_INCLUDE_DIR}/micro/core/Tensor.h"
-    EventNotifier.h
     Kernel.h
     KernelParams.h
     RuntimeGraph.h

@@ -41,7 +41,6 @@ std::unique_ptr<Kernel> build_kernel_CircleTransposeConv(const luci::CircleNode 
 
   auto scratch_tensor =
     std::make_unique<Tensor>(scratch_data_type, Shape({}), AffineQuantization{}, "");
-  scratch_tensor->set_observable(false);
   scratch_tensor->set_data_buffer(nullptr);
   Tensor *tmp = helper.getRuntimeGraph(node->graph())->addTensor(std::move(scratch_tensor));
 

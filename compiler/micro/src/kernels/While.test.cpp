@@ -82,7 +82,7 @@ TEST(WhileTest, FloatLoop10)
   Tensor input_cond = makeInputTensor<DataType::FLOAT32>({1}, {10}, memory_manager.get());
   Tensor input_add = makeInputTensor<DataType::FLOAT32>({1}, {1}, memory_manager.get());
 
-  RuntimeModule module(nullptr);
+  RuntimeModule module;
   RuntimeGraph *cond_graph =
     buildCondSubgraph(&module, DataType::FLOAT32, &input_cond, memory_manager.get());
   RuntimeGraph *body_graph =

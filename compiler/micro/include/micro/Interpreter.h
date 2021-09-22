@@ -32,21 +32,6 @@
 namespace micro
 {
 
-class ExecutionObserver
-{
-public:
-  virtual ~ExecutionObserver();
-
-  // Called when the value of a tensor has been updated during execution.
-  virtual void postTensorWrite(const luci::CircleNode *node, const Tensor *tensor);
-
-  // Called before / after executing an operator.
-  // Note that these methods are not called for auxiliary operators (CircleInput, CircleOutput,
-  // CircleConst and Circle*Out).
-  virtual void preOperatorExecute(const luci::CircleNode *node);
-  virtual void postOperatorExecute(const luci::CircleNode *node);
-};
-
 class Interpreter
 {
 public:
@@ -55,14 +40,9 @@ public:
   ~Interpreter();
 
   void writeInputTensor(const luci::CircleInput *input_node, const void *data, size_t data_size);
-
   void readOutputTensor(const luci::CircleOutput *output_node, void *data, size_t data_size);
 
   void interpret();
-
-  void attachObserver(ExecutionObserver *observer);
-
-  const Tensor *getTensor(const loco::Node *node) { return _node_to_tensor[node]; }
 
 private:
   // _default_memory_manager should be before _runtime_module due to
@@ -70,12 +50,6 @@ private:
   std::unique_ptr<IMemoryManager> _default_memory_manager = nullptr;
   std::unique_ptr<class RuntimeModule> _runtime_module;
   IMemoryManager *_memory_manager = nullptr;
-
-  // Observer functionality support.
-  std::unique_ptr<struct RuntimeToIR> _runtime_to_ir;
-  std::unordered_map<const loco::Node *, Tensor *> _node_to_tensor;
-  std::unique_ptr<class EventNotifier> _event_notifier;
-  std::vector<ExecutionObserver *> _observers;
 };
 
 } // namespace micro

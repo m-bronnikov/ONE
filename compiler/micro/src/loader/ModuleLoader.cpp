@@ -22,11 +22,8 @@ namespace micro
 {
 
 ModuleLoader::ModuleLoader(const luci::Module *module, RuntimeModule *runtime_module,
-                           RuntimeToIR &runtime_to_ir,
-                           std::unordered_map<const loco::Node *, Tensor *> &node_to_tensor,
                            IMemoryManager *memory_manager)
-  : _module(module), _runtime_module(runtime_module), _runtime_to_ir(runtime_to_ir),
-    _node_to_tensor(node_to_tensor), _memory_manager(memory_manager)
+  : _module(module), _runtime_module(runtime_module), _memory_manager(memory_manager)
 {
 }
 

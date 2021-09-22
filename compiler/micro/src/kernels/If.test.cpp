@@ -95,7 +95,7 @@ TEST_F(IfTest, CondTrue)
   Tensor input2 = makeInputTensor<DataType::FLOAT32>({1, 2}, {1, 2}, _memory_manager.get());
   Tensor output = makeOutputTensor(DataType::FLOAT32);
 
-  RuntimeModule module(nullptr);
+  RuntimeModule module;
   RuntimeGraph *then_graph = buildAddSubgraph(&module, _memory_manager.get());
   RuntimeGraph *else_graph = buildMulSubgraph(&module, _memory_manager.get());
 
@@ -114,7 +114,7 @@ TEST_F(IfTest, CondFalse)
   Tensor input2 = makeInputTensor<DataType::FLOAT32>({1, 2}, {1, 2}, _memory_manager.get());
   Tensor output = makeOutputTensor(DataType::FLOAT32);
 
-  RuntimeModule module(nullptr);
+  RuntimeModule module;
   RuntimeGraph *then_graph = buildAddSubgraph(&module, _memory_manager.get());
   RuntimeGraph *else_graph = buildMulSubgraph(&module, _memory_manager.get());
 
@@ -133,7 +133,7 @@ TEST_F(IfTest, InvalidCondType_NEG)
   Tensor input2 = makeInputTensor<DataType::FLOAT32>({1, 2}, {1, 2}, _memory_manager.get());
   Tensor output = makeOutputTensor(DataType::FLOAT32);
 
-  RuntimeModule module(nullptr);
+  RuntimeModule module;
   RuntimeGraph *then_graph = buildAddSubgraph(&module, _memory_manager.get());
   RuntimeGraph *else_graph = buildMulSubgraph(&module, _memory_manager.get());
 
@@ -148,7 +148,7 @@ TEST_F(IfTest, InvalidCondElementNum_NEG)
   Tensor input2 = makeInputTensor<DataType::FLOAT32>({1, 2}, {1, 2}, _memory_manager.get());
   Tensor output = makeOutputTensor(DataType::FLOAT32);
 
-  RuntimeModule module(nullptr);
+  RuntimeModule module;
   RuntimeGraph *then_graph = buildAddSubgraph(&module, _memory_manager.get());
   RuntimeGraph *else_graph = buildMulSubgraph(&module, _memory_manager.get());
 
