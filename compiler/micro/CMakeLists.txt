@@ -1,0 +1,15 @@
+set(MICRO_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/include")
+set(MICRO_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/src")
+if (NOT MICRO_PAL_DIR)
+    set(MICRO_PAL_DIR "${CMAKE_CURRENT_SOURCE_DIR}/pal/linux")
+endif()
+
+set(KERNEL_REGISTER_FILE ${MICRO_PAL_DIR}/KernelsToBuild.lst)
+
+if (NOT DEFINED CUSTOM_MICRO_SUFFIX)
+    set(MICRO_SUFFIX "")
+else()
+    set(MICRO_SUFFIX ${CUSTOM_MICRO_SUFFIX})
+endif()
+
+add_subdirectory(src)

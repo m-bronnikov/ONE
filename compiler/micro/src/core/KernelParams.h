@@ -1,0 +1,198 @@
+/*
+ * Copyright (c) 2020 Samsung Electronics Co., Ltd. All Rights Reserved
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+#ifndef MICRO_CORE_KERNELPARAMS_H
+#define MICRO_CORE_KERNELPARAMS_H
+
+#include <luci/IR/AttrPadding.h>
+#include <luci/IR/AttrFusedActFunc.h>
+#include <luci/IR/AttrMirrorPadMode.h>
+#include <micro/core/DataType.h>
+
+#include <cstdint>
+#include <vector>
+
+namespace micro
+{
+
+// Inject commonly used types into `micro` namespace for convenience.
+using Activation = luci::FusedActFunc;
+using Padding = luci::Padding;
+using MirrorPadMode = luci::MirrorPadMode;
+
+struct AddParams
+{
+  Activation activation;
+};
+
+struct ArgMaxParams
+{
+  DataType output_type;
+};
+
+struct ConcatenationParams
+{
+  int axis;
+  Activation activation;
+};
+
+struct Conv2DParams
+{
+  Padding padding;
+  int32_t stride_height;
+  int32_t stride_width;
+  int32_t dilation_height_factor;
+  int32_t dilation_width_factor;
+  Activation activation;
+};
+
+struct DepthToSpaceParams
+{
+  int block_size;
+};
+
+struct DepthwiseConv2DParams
+{
+  Padding padding;
+  int32_t depth_multiplier; // TODO Remove, as it can be calculated.
+  int32_t stride_height;
+  int32_t stride_width;
+  int32_t dilation_height_factor;
+  int32_t dilation_width_factor;
+  Activation activation;
+};
+
+struct DivParams
+{
+  Activation activation;
+};
+
+struct FullyConnectedParams
+{
+  Activation activation;
+};
+
+struct InstanceNormParams
+{
+  float epsilon;
+  Activation activation;
+};
+
+struct L2NormParams
+{
+  Activation activation;
+};
+
+struct LeakyReluParams
+{
+  float alpha;
+};
+
+struct LocalResponseNormalizationParams
+{
+  int32_t radius;
+  float bias;
+  float alpha;
+  float beta;
+};
+
+struct MirrorPadParams
+{
+  MirrorPadMode mode;
+};
+
+struct MulParams
+{
+  Activation activation;
+};
+
+struct PackParams
+{
+  int32_t values_count;
+  int32_t axis;
+};
+
+struct Pool2DParams
+{
+  Padding padding;
+  int32_t filter_height;
+  int32_t filter_width;
+  int32_t stride_height;
+  int32_t stride_width;
+  Activation activation;
+};
+
+struct ReducerParams
+{
+  bool keep_dims;
+};
+
+struct ResizeBilinearParams
+{
+  bool align_corners;
+  bool half_pixel_centers;
+};
+
+struct ResizeNearestNeighborParams
+{
+  bool align_corners;
+  bool half_pixel_centers;
+};
+
+struct SubParams
+{
+  Activation activation;
+};
+
+struct SpaceToDepthParams
+{
+  int block_size;
+};
+
+struct SoftmaxParams
+{
+  float beta;
+};
+
+struct StridedSliceParams
+{
+  int32_t begin_mask;
+  int32_t end_mask;
+  int32_t ellipsis_mask;
+  int32_t new_axis_mask;
+  int32_t shrink_axis_mask;
+};
+
+struct SqueezeParams
+{
+  std::vector<int32_t> squeeze_dims;
+};
+
+struct TransposeConvParams
+{
+  Padding padding;
+  int32_t stride_height;
+  int32_t stride_width;
+};
+
+struct UnpackParams
+{
+  int axis;
+};
+
+} // namespace micro
+
+#endif // MICRO_CORE_KERNELPARAMS_H
