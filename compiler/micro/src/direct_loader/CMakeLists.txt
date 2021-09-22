@@ -1,0 +1,30 @@
+file(GLOB_RECURSE SOURCES "src/*.cpp")
+file(GLOB_RECURSE TESTS "src/*.test.cpp")
+list(REMOVE_ITEM SOURCES ${TESTS})
+
+add_library(micro_direct_loader SHARED ${SOURCES})
+target_include_directories(micro_direct_loader PRIVATE src)
+target_include_directories(micro_direct_loader PUBLIC include)
+target_link_libraries(micro_direct_loader PUBLIC luci_lang)
+target_link_libraries(micro_direct_loader PUBLIC luci_profile)
+target_link_libraries(micro_direct_loader PUBLIC mio_circle)
+target_link_libraries(micro_direct_loader PRIVATE luci_env)
+target_link_libraries(micro_direct_loader PRIVATE luci_log)
+target_link_libraries(micro_direct_loader PRIVATE luci_logex)
+target_link_libraries(micro_direct_loader PRIVATE nncc_common)
+target_link_libraries(micro_direct_loader PRIVATE locop)
+target_link_libraries(micro_direct_loader PRIVATE oops)
+install(TARGETS micro_direct_loader DESTINATION lib)
+install(DIRECTORY include/ DESTINATION include
+        FILES_MATCHING PATTERN "*.h")
+
+if(NOT ENABLE_TEST)
+  return()
+endif(NOT ENABLE_TEST)
+
+nnas_find_package(GTest REQUIRED)
+
+GTest_AddTest(micro_direct_loader_test ${TESTS})
+target_include_directories(micro_direct_loader_test PRIVATE src)
+target_link_libraries(micro_direct_loader_test micro_direct_loader)
+target_link_libraries(micro_direct_loader_test oops)

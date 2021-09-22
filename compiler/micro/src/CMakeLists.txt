@@ -19,6 +19,8 @@ add_subdirectory(kernels)
 message(STATUS "MICRO KERNELS")
 add_subdirectory(loader)
 message(STATUS "MICRO LOADER")
+add_subdirectory(direct_loader)
+message(STATUS "MICRO DIRECT LOADER")
 
 message(STATUS "LUCI INTERPTER INITALIZED")
 
