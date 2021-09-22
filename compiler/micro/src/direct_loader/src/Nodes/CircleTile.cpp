@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "luci/Import/Nodes/CircleTile.h"
+#include "Import/Nodes/CircleTile.h"
 
 #include <luci/IR/Nodes/CircleTile.h>
 

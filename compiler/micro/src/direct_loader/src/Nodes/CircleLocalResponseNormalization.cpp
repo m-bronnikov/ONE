@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "luci/Import/Nodes/CircleLocalResponseNormalization.h"
+#include "Import/Nodes/CircleLocalResponseNormalization.h"
 
 #include <luci/IR/Nodes/CircleLocalResponseNormalization.h>
 

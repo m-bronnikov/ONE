@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "luci/Import/Nodes/CircleRange.h"
+#include "Import/Nodes/CircleRange.h"
 
 #include <luci/IR/Nodes/CircleRange.h>
 

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "luci/Import/Nodes/CircleArgMin.h"
+#include "Import/Nodes/CircleArgMin.h"
 
 #include <luci/IR/Nodes/CircleArgMin.h>
 

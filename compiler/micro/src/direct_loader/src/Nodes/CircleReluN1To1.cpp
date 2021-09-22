@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "luci/Import/Nodes/CircleReluN1To1.h"
+#include "Import/Nodes/CircleReluN1To1.h"
 
 #include <luci/IR/Nodes/CircleReluN1To1.h>
 

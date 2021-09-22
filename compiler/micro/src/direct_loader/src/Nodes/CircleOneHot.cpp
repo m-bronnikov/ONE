@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "luci/Import/Nodes/CircleOneHot.h"
+#include "Import/Nodes/CircleOneHot.h"
 
 #include <luci/IR/Nodes/CircleOneHot.h>
 

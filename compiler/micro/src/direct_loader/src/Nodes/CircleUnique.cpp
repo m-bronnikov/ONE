@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "luci/Import/Nodes/CircleUnique.h"
+#include "Import/Nodes/CircleUnique.h"
 
 #include <luci/IR/Nodes/CircleUnique.h>
 #include <luci/IR/Nodes/CircleUniqueOut.h>

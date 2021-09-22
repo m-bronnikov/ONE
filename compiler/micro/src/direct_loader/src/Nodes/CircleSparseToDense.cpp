@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "luci/Import/Nodes/CircleSparseToDense.h"
+#include "Import/Nodes/CircleSparseToDense.h"
 
 #include <luci/IR/Nodes/CircleSparseToDense.h>
 

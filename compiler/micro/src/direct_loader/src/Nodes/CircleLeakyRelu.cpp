@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "luci/Import/Nodes/CircleLeakyRelu.h"
+#include "Import/Nodes/CircleLeakyRelu.h"
 
 #include <luci/IR/Nodes/CircleLeakyRelu.h>
 

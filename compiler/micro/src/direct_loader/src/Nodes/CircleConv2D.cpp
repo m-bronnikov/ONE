@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "luci/Import/Nodes/CircleConv2D.h"
+#include "Import/Nodes/CircleConv2D.h"
 
 #include <luci/IR/Nodes/CircleConv2D.h>
 

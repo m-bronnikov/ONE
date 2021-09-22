@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "luci/Import/Nodes/CircleWhile.h"
+#include "Import/Nodes/CircleWhile.h"
 
 #include <luci/IR/Nodes/CircleWhile.h>
 #include <luci/IR/Nodes/CircleWhileOut.h>

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "luci/Import/Nodes/CircleBCQGather.h"
+#include "Import/Nodes/CircleBCQGather.h"
 
 #include <luci/IR/Nodes/CircleBCQGather.h>
 

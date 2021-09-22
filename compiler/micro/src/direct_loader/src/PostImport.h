@@ -17,7 +17,7 @@
 #ifndef __MICRO_POST_IMPORT_H__
 #define __MICRO_POST_IMPORT_H__
 
-#include "luci/Import/CircleReader.h"
+#include "Import/CircleReader.h"
 
 #include "luci/IR/Module.h"
 

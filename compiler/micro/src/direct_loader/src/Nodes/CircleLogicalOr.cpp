@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "luci/Import/Nodes/CircleLogicalOr.h"
+#include "Import/Nodes/CircleLogicalOr.h"
 
 #include <luci/IR/Nodes/CircleLogicalOr.h>
 

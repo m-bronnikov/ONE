@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "luci/Import/Nodes/CircleRsqrt.h"
+#include "Import/Nodes/CircleRsqrt.h"
 
 #include <luci/IR/Nodes/CircleRsqrt.h>
 

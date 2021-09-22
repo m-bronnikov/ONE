@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "luci/Import/Nodes/CircleAveragePool2D.h"
+#include "Import/Nodes/CircleAveragePool2D.h"
 
 #include <luci/IR/Nodes/CircleAveragePool2D.h>
 

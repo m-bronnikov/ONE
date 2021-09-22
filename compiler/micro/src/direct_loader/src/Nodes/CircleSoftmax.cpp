@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "luci/Import/Nodes/CircleSoftmax.h"
+#include "Import/Nodes/CircleSoftmax.h"
 
 #include <luci/IR/Nodes/CircleSoftmax.h>
 

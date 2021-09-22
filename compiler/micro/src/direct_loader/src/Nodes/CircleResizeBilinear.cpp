@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "luci/Import/Nodes/CircleResizeBilinear.h"
+#include "Import/Nodes/CircleResizeBilinear.h"
 
 #include <luci/IR/Nodes/CircleResizeBilinear.h>
 

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "luci/Import/Nodes/CircleRound.h"
+#include "Import/Nodes/CircleRound.h"
 
 #include <luci/IR/Nodes/CircleRound.h>
 

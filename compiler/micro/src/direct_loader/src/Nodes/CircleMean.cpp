@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "luci/Import/Nodes/CircleMean.h"
+#include "Import/Nodes/CircleMean.h"
 
 #include <luci/IR/Nodes/CircleMean.h>
 

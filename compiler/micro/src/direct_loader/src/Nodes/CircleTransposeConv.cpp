@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "luci/Import/Nodes/CircleTransposeConv.h"
+#include "Import/Nodes/CircleTransposeConv.h"
 
 #include <luci/IR/Nodes/CircleTransposeConv.h>
 

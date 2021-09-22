@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "luci/Import/Nodes/CircleSelectV2.h"
+#include "Import/Nodes/CircleSelectV2.h"
 
 #include <luci/IR/Nodes/CircleSelectV2.h>
 

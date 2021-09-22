@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "luci/Import/GraphBuilder.h"
+#include "Import/GraphBuilder.h"
 
 #include <luci/Log.h>
 

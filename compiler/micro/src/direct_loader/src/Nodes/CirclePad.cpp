@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "luci/Import/Nodes/CirclePad.h"
+#include "Import/Nodes/CirclePad.h"
 
 #include <luci/IR/Nodes/CirclePad.h>
 

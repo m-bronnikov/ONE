@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "luci/Import/Nodes/CircleIf.h"
+#include "Import/Nodes/CircleIf.h"
 
 #include <luci/IR/Nodes/CircleIf.h>
 #include <luci/IR/Nodes/CircleIfOut.h>

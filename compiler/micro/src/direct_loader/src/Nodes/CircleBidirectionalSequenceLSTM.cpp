@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "luci/Import/Nodes/CircleBidirectionalSequenceLSTM.h"
+#include "Import/Nodes/CircleBidirectionalSequenceLSTM.h"
 
 #include <luci/IR/Nodes/CircleBidirectionalSequenceLSTM.h>
 #include <luci/IR/Nodes/CircleBidirectionalSequenceLSTMOut.h>

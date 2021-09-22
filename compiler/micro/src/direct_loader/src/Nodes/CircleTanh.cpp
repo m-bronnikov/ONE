@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "luci/Import/Nodes/CircleTanh.h"
+#include "Import/Nodes/CircleTanh.h"
 
 #include <luci/IR/Nodes/CircleTanh.h>
 

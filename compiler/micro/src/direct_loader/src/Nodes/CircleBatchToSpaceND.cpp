@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "luci/Import/Nodes/CircleBatchToSpaceND.h"
+#include "Import/Nodes/CircleBatchToSpaceND.h"
 
 #include <luci/IR/Nodes/CircleBatchToSpaceND.h>
 

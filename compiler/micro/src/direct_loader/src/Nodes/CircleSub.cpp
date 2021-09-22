@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "luci/Import/Nodes/CircleSub.h"
+#include "Import/Nodes/CircleSub.h"
 
 #include <luci/IR/Nodes/CircleSub.h>
 

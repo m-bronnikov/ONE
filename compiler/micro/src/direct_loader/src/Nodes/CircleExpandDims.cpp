@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "luci/Import/Nodes/CircleExpandDims.h"
+#include "Import/Nodes/CircleExpandDims.h"
 
 #include <luci/IR/Nodes/CircleExpandDims.h>
 

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "luci/Import/Nodes/CircleCast.h"
+#include "Import/Nodes/CircleCast.h"
 
 #include <luci/IR/Nodes/CircleCast.h>
 

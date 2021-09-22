@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "luci/Import/Nodes/CircleLogistic.h"
+#include "Import/Nodes/CircleLogistic.h"
 
 #include <luci/IR/Nodes/CircleLogistic.h>
 

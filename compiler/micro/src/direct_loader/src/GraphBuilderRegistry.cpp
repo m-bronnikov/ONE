@@ -14,14 +14,15 @@
  * limitations under the License.
  */
 
-#include "luci/Import/GraphBuilderRegistry.h"
+#include "Import/GraphBuilderRegistry.h"
 
-#include "luci/Import/Nodes.h"
+#include "Import/Nodes.h"
 
 #include <memory>
 
-namespace luci
+namespace micro
 {
+using namespace luci;
 
 GraphBuilderRegistry::GraphBuilderRegistry() : _op2builder(circle::BuiltinOperator_MAX + 1)
 {

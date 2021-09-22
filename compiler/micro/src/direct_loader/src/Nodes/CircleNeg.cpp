@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "luci/Import/Nodes/CircleNeg.h"
+#include "Import/Nodes/CircleNeg.h"
 
 #include <luci/IR/Nodes/CircleNeg.h>
 

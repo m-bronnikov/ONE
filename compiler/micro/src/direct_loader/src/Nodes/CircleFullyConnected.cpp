@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "luci/Import/Nodes/CircleFullyConnected.h"
+#include "Import/Nodes/CircleFullyConnected.h"
 
 #include <luci/IR/Nodes/CircleFullyConnected.h>
 #include <luci/IR/Nodes/CircleOutput.h>

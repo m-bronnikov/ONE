@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "luci/Import/Nodes/CircleReverseSequence.h"
+#include "Import/Nodes/CircleReverseSequence.h"
 
 #include <luci/IR/Nodes/CircleReverseSequence.h>
 

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "luci/Import/Nodes/CircleBatchMatMul.h"
+#include "Import/Nodes/CircleBatchMatMul.h"
 
 #include <luci/IR/Nodes/CircleBatchMatMul.h>
 

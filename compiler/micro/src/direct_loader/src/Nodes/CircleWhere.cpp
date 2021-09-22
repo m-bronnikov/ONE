@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "luci/Import/Nodes/CircleWhere.h"
+#include "Import/Nodes/CircleWhere.h"
 
 #include <luci/IR/Nodes/CircleWhere.h>
 

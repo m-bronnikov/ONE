@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "luci/Import/Nodes/CircleSquaredDifference.h"
+#include "Import/Nodes/CircleSquaredDifference.h"
 
 #include <luci/IR/Nodes/CircleSquaredDifference.h>
 

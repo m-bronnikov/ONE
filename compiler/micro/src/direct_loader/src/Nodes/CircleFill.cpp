@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "luci/Import/Nodes/CircleFill.h"
+#include "Import/Nodes/CircleFill.h"
 
 #include <luci/IR/Nodes/CircleFill.h>
 

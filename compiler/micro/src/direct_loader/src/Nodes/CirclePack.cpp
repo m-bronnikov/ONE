@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "luci/Import/Nodes/CirclePack.h"
+#include "Import/Nodes/CirclePack.h"
 
 #include <luci/IR/Nodes/CirclePack.h>
 

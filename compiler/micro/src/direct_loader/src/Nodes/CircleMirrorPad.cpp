@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "luci/Import/Nodes/CircleMirrorPad.h"
+#include "Import/Nodes/CircleMirrorPad.h"
 
 #include <luci/IR/Nodes/CircleMirrorPad.h>
 

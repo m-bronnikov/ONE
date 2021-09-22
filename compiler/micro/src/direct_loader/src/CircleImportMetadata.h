@@ -17,7 +17,7 @@
 #ifndef __MICRO_CIRCLE_IMPORT_METADATA_H__
 #define __MICRO_CIRCLE_IMPORT_METADATA_H__
 
-#include "luci/Import/CircleReader.h"
+#include "Import/CircleReader.h"
 
 #include <luci/Profile/CircleNodeOrigin.h>
 

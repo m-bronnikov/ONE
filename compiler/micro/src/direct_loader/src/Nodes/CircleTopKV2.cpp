@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "luci/Import/Nodes/CircleTopKV2.h"
+#include "Import/Nodes/CircleTopKV2.h"
 
 #include <luci/IR/Nodes/CircleTopKV2.h>
 #include <luci/IR/Nodes/CircleTopKV2Out.h>

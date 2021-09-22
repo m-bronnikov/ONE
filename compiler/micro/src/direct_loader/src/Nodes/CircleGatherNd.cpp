@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "luci/Import/Nodes/CircleGatherNd.h"
+#include "Import/Nodes/CircleGatherNd.h"
 
 #include <luci/IR/Nodes/CircleGatherNd.h>
 

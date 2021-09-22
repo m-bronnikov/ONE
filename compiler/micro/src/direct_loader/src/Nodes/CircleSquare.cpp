@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "luci/Import/Nodes/CircleSquare.h"
+#include "Import/Nodes/CircleSquare.h"
 
 #include <luci/IR/Nodes/CircleSquare.h>
 

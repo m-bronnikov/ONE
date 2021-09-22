@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "luci/Import/Nodes/CircleUnidirectionalSequenceLSTM.h"
+#include "Import/Nodes/CircleUnidirectionalSequenceLSTM.h"
 
 #include <luci/IR/Nodes/CircleUnidirectionalSequenceLSTM.h>
 

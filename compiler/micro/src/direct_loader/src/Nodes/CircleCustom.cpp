@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "luci/Import/Nodes/CircleCustom.h"
+#include "Import/Nodes/CircleCustom.h"
 
 #include <loco.h>
 

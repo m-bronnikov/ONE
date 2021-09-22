@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "luci/Import/Nodes/CircleUnpack.h"
+#include "Import/Nodes/CircleUnpack.h"
 
 #include <luci/IR/Nodes/CircleUnpack.h>
 #include <luci/IR/Nodes/CircleUnpackOut.h>

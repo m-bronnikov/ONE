@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "luci/Import/Nodes/CircleSplitV.h"
+#include "Import/Nodes/CircleSplitV.h"
 
 #include <luci/IR/Nodes/CircleSplitV.h>
 #include <luci/IR/Nodes/CircleSplitVOut.h>

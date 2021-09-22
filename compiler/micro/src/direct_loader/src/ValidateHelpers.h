@@ -17,7 +17,7 @@
 #ifndef __MICRO_VALIDATE_HELPERS_H__
 #define __MICRO_VALIDATE_HELPERS_H__
 
-#include "luci/Import/GraphBuilderBase.h"
+#include "Import/GraphBuilderBase.h"
 
 /**
  * @Note Methods in this file provides helper functions to reduce duplicate codes

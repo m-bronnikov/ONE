@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "luci/Import/Nodes/CircleSlice.h"
+#include "Import/Nodes/CircleSlice.h"
 
 #include <luci/IR/Nodes/CircleSlice.h>
 

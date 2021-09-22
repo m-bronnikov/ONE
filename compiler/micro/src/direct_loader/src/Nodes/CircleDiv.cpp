@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "luci/Import/Nodes/CircleDiv.h"
+#include "Import/Nodes/CircleDiv.h"
 
 #include <luci/IR/Nodes/CircleDiv.h>
 

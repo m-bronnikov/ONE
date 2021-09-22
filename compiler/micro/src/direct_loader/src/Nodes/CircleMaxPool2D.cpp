@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "luci/Import/Nodes/CircleMaxPool2D.h"
+#include "Import/Nodes/CircleMaxPool2D.h"
 
 #include <luci/IR/Nodes/CircleMaxPool2D.h>
 

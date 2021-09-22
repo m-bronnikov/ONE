@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "luci/Import/Nodes/CircleConst.h"
+#include "Import/Nodes/CircleConst.h"
 
 #include <luci/IR/Nodes/CircleConst.h>
 #include <luci/Log.h>

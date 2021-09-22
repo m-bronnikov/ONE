@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "luci/Import/Nodes/CircleMatrixDiag.h"
+#include "Import/Nodes/CircleMatrixDiag.h"
 
 #include <luci/IR/Nodes/CircleMatrixDiag.h>
 

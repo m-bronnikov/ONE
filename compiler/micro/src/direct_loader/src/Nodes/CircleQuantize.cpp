@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "luci/Import/Nodes/CircleQuantize.h"
+#include "Import/Nodes/CircleQuantize.h"
 
 #include <luci/IR/Nodes/CircleQuantize.h>
 

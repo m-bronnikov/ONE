@@ -16,7 +16,7 @@
 
 #include "PostImport.h"
 
-#include "luci/Import/CircleReader.h"
+#include "Import/CircleReader.h"
 
 #include <luci/IR/CircleNodes.h>
 #include <luci/IR/CircleDialect.h>

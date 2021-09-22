@@ -14,16 +14,16 @@
  * limitations under the License.
  */
 
-#include "luci/Import/GraphBuilderContext.h"
+#include "Import/GraphBuilderContext.h"
 
 #include <luci/Log.h>
 
 #include <oops/UserExn.h>
 
-namespace luci
+namespace micro
 {
 
-void IndexNodeFinder::enroll(TensorIndex idx, CircleNode *node)
+void IndexNodeFinder::enroll(TensorIndex idx, luci::CircleNode *node)
 {
   auto iter = _table.find(idx);
   if (iter != _table.end())
@@ -37,7 +37,7 @@ void IndexNodeFinder::enroll(TensorIndex idx, CircleNode *node)
   _table[idx] = node;
 }
 
-CircleNode *IndexNodeFinder::node(TensorIndex idx) const
+luci::CircleNode *IndexNodeFinder::node(TensorIndex idx) const
 {
   MapIndexNode_t::const_iterator iter = _table.find(idx);
 
@@ -59,4 +59,4 @@ void IndexTensorOutputs::enroll(TensorIndex idx)
 
 bool IndexTensorOutputs::find(TensorIndex idx) { return (_set.find(idx) != _set.end()); }
 
-} // namespace luci
+} // namespace micro

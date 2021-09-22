@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "luci/Import/Nodes/CircleResizeNearestNeighbor.h"
+#include "Import/Nodes/CircleResizeNearestNeighbor.h"
 
 #include <luci/IR/Nodes/CircleResizeNearestNeighbor.h>
 

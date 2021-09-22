@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "luci/Import/Nodes/CircleReshape.h"
+#include "Import/Nodes/CircleReshape.h"
 
 #include <luci/IR/Nodes/CircleConst.h>
 #include <luci/IR/Nodes/CircleReshape.h>

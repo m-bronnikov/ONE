@@ -14,14 +14,15 @@
  * limitations under the License.
  */
 
-#include "luci/Import/CircleReader.h"
+#include "Import/CircleReader.h"
 
 #include <memory>
 #include <sstream>
 #include <string>
 
-namespace luci
+namespace micro
 {
+using namespace luci;
 
 bool is_valid(const circle::OperatorCodeT &opcode)
 {

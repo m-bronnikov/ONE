@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "luci/Import/Nodes/CircleConcatenation.h"
+#include "Import/Nodes/CircleConcatenation.h"
 
 #include <luci/IR/Nodes/CircleConcatenation.h>
 

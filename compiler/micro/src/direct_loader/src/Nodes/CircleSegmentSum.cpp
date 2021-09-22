@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "luci/Import/Nodes/CircleSegmentSum.h"
+#include "Import/Nodes/CircleSegmentSum.h"
 
 #include <luci/IR/Nodes/CircleSegmentSum.h>
 

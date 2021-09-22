@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "luci/Import/Nodes/CircleSpaceToDepth.h"
+#include "Import/Nodes/CircleSpaceToDepth.h"
 
 #include <luci/IR/Nodes/CircleSpaceToDepth.h>
 

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "luci/Import/Nodes/CircleNonMaxSuppressionV5.h"
+#include "Import/Nodes/CircleNonMaxSuppressionV5.h"
 
 #include <luci/IR/Nodes/CircleNonMaxSuppressionV5.h>
 #include <luci/IR/Nodes/CircleNonMaxSuppressionV5Out.h>

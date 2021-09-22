@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "luci/Import/Nodes/CircleLess.h"
+#include "Import/Nodes/CircleLess.h"
 
 #include <luci/IR/Nodes/CircleLess.h>
 

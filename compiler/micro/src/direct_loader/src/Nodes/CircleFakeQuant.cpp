@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "luci/Import/Nodes/CircleFakeQuant.h"
+#include "Import/Nodes/CircleFakeQuant.h"
 
 #include <luci/IR/Nodes/CircleFullyConnected.h>
 #include <luci/IR/Nodes/CircleOutput.h>

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "luci/Import/Nodes/CircleLogSoftmax.h"
+#include "Import/Nodes/CircleLogSoftmax.h"
 
 #include <luci/IR/Nodes/CircleLogSoftmax.h>
 

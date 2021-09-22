@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "luci/Import/Nodes/CircleNotEqual.h"
+#include "Import/Nodes/CircleNotEqual.h"
 
 #include <luci/IR/Nodes/CircleNotEqual.h>
 

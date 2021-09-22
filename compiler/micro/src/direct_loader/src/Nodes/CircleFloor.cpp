@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "luci/Import/Nodes/CircleFloor.h"
+#include "Import/Nodes/CircleFloor.h"
 
 #include <luci/IR/Nodes/CircleFloor.h>
 

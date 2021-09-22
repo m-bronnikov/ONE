@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "luci/Import/Nodes/CircleArgMax.h"
+#include "Import/Nodes/CircleArgMax.h"
 
 #include <luci/IR/Nodes/CircleArgMax.h>
 

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "luci/Import/Nodes/CircleRank.h"
+#include "Import/Nodes/CircleRank.h"
 
 #include <luci/IR/Nodes/CircleRank.h>
 

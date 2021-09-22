@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "luci/Import/Nodes/CircleBCQFullyConnected.h"
+#include "Import/Nodes/CircleBCQFullyConnected.h"
 
 #include <luci/IR/Nodes/CircleBCQFullyConnected.h>
 

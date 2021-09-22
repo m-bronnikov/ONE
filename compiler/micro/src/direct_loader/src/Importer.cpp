@@ -14,15 +14,15 @@
  * limitations under the License.
  */
 
-#include "luci/Importer.h"
+#include "Importer.h"
 #include "CircleImportMetadata.h"
 #include "PostImport.h"
 
-#include "luci/Import/GraphBuilder.h"
-#include "luci/Import/GraphBuilderContext.h"
-#include "luci/Import/GraphBuilderRegistry.h"
-#include "luci/Import/CircleReader.h"
-#include "luci/Import/Nodes/CircleConst.h"
+#include "Import/GraphBuilder.h"
+#include "Import/GraphBuilderContext.h"
+#include "Import/GraphBuilderRegistry.h"
+#include "Import/CircleReader.h"
+#include "Import/Nodes/CircleConst.h"
 
 #include <luci/IR/Module.h>
 #include <luci/IR/CircleNodes.h>
@@ -229,8 +229,9 @@ public:
 
 } // namespace
 
-namespace luci
+namespace micro
 {
+using namespace luci;
 
 std::unique_ptr<loco::Graph> Importer::import(const circle::Model *model) const
 {

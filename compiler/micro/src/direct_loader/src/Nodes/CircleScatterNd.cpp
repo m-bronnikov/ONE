@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "luci/Import/Nodes/CircleScatterNd.h"
+#include "Import/Nodes/CircleScatterNd.h"
 
 #include <luci/IR/Nodes/CircleScatterNd.h>
 

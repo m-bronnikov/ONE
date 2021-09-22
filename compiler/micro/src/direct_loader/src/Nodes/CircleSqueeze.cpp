@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "luci/Import/Nodes/CircleSqueeze.h"
+#include "Import/Nodes/CircleSqueeze.h"
 
 #include <luci/IR/Nodes/CircleSqueeze.h>
 

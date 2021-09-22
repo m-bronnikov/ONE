@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "luci/Import/Nodes/CircleGreater.h"
+#include "Import/Nodes/CircleGreater.h"
 
 #include <luci/IR/Nodes/CircleGreater.h>
 

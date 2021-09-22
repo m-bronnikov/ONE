@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "luci/Import/Nodes/CircleZerosLike.h"
+#include "Import/Nodes/CircleZerosLike.h"
 
 #include <luci/IR/Nodes/CircleZerosLike.h>
 

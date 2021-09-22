@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "luci/Import/Nodes/CircleInstanceNorm.h"
+#include "Import/Nodes/CircleInstanceNorm.h"
 
 #include <luci/IR/Nodes/CircleInstanceNorm.h>
 

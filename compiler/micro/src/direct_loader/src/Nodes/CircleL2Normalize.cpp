@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "luci/Import/Nodes/CircleL2Normalize.h"
+#include "Import/Nodes/CircleL2Normalize.h"
 
 #include <luci/IR/Nodes/CircleL2Normalize.h>
 
