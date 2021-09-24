@@ -33,11 +33,17 @@ namespace luci
 class Importer final
 {
 public:
-  explicit Importer() = default;
+  explicit Importer(bool copy_consts = true) : _copy_consts(copy_consts)
+  {
+    // Do nothing
+  }
 
 public:
   std::unique_ptr<loco::Graph> import(const circle::Model *model) const;
   std::unique_ptr<Module> importModule(const circle::Model *model) const;
+
+private:
+  const bool _copy_consts = false;
 };
 
 } // namespace luci
