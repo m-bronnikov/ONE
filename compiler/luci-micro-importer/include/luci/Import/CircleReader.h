@@ -65,13 +65,17 @@ private:
   using CircleOperatorCodes_t = std::vector<std::unique_ptr<circle::OperatorCodeT>>;
   using CircleMetadata_t = std::vector<std::unique_ptr<circle::MetadataT>>;
 
-  using CircleSubGraphsPtr_t = flatbuffers::Vector<flatbuffers::Offset<circle::SubGraph>>;
-  using CircleTensorsPtr_t = flatbuffers::Vector<flatbuffers::Offset<circle::Tensor>>;
+  using CircleSubGraphs = flatbuffers::Vector<flatbuffers::Offset<circle::SubGraph>>;
+  using CircleBuffers = flatbuffers::Vector<flatbuffers::Offset<circle::Buffer>>;
+  using CircleTensors = flatbuffers::Vector<flatbuffers::Offset<circle::Tensor>>;
+  using CircleOperators = flatbuffers::Vector<flatbuffers::Offset<circle::Operator>>;
+  using CircleOperatorCodes = flatbuffers::Vector<flatbuffers::Offset<circle::OperatorCode>>;
+  using CircleMetadataSet = flatbuffers::Vector<flatbuffers::Offset<circle::Metadata>>;
 
 public:
   CircleReader() = default;
 
-public:
+public: // unpacked API
   const CircleOperatorCodes_t &opcodes() const { return _model->operator_codes; }
   const CircleBuffers_t &buffers() const { return _model->buffers; }
   const CircleTensors_t &tensors() const { return _current_subgraph->tensors; }
@@ -82,23 +86,38 @@ public:
   const circle::DataFormat &data_format() const { return _current_subgraph->data_format; }
   const CircleMetadata_t &metadata() const { return _model->metadata; }
 
-  const CircleTensorsPtr_t *tensors_ptr() const { return _tensors_ptr; }
-
-  uint32_t num_subgraph() const { return _model->subgraphs.size(); }
-
   circle::BuiltinOperator builtin_code(const circle::OperatorT &op) const;
   std::string opcode_name(const circle::OperatorT &op) const;
+
+public: // direct API
+  const CircleOperatorCodes *native_opcodes() const { return _native_model->operator_codes(); }
+  const CircleBuffers *native_buffers() const { return _native_model->buffers(); }
+  const CircleTensors *native_tensors() const { return _native_subgraph->tensors(); }
+  const CircleOperators *native_operators() const { return _native_subgraph->operators(); }
+  const flatbuffers::Vector<int32_t> *native_inputs() const { return _native_subgraph->inputs(); }
+  const flatbuffers::Vector<int32_t> *native_outputs() const { return _native_subgraph->outputs(); }
+  const char *native_name() const { return _native_subgraph->name()->c_str(); }
+  circle::DataFormat native_data_format() const { return _native_subgraph->data_format(); }
+  const CircleMetadataSet *native_metadata() const { return _native_model->metadata(); }
+
+  circle::BuiltinOperator builtin_code(const circle::Operator *op) const;
+  std::string opcode_name(const circle::Operator *op) const;
+
+public:
+  uint32_t num_subgraph() const { return _model->subgraphs.size(); }
 
 public:
   bool parse(const circle::Model *model);
   bool select_subgraph(uint32_t subgraph);
 
 private:
+  // unpacked model
   std::unique_ptr<const circle::ModelT> _model;
   const circle::SubGraphT *_current_subgraph{nullptr};
 
-  const circle::Model *_model_ptr{nullptr};
-  const CircleTensorsPtr_t *_tensors_ptr{nullptr};
+  // direct model
+  const circle::Model *_native_model{nullptr};
+  const circle::SubGraph *_native_subgraph{nullptr};
 };
 
 } // namespace luci
