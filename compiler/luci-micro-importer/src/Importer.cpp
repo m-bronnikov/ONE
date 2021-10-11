@@ -72,7 +72,7 @@ void convert_graph(const luci::GraphBuilderSource &source, luci::CircleReader &r
   // graph inputs; there are no input nodes in TFlite but just Tensors
   // creating virtual input nodes will make possible to connect nodes that uses them
   // all attributes of tensor should be copied to CircleInput node
-  for (const auto input : reader.inputs())
+  for (auto const input : *(reader.native_inputs()))
   {
     auto input_node = graph->nodes()->create<luci::CircleInput>();
     assert(input_node != nullptr);
