@@ -156,8 +156,7 @@ void convert_graph(const luci::GraphBuilderSource &source, luci::CircleReader &r
     }
   }
 
-  // graph outputs
-  for (auto output : reader.outputs())
+  for (auto const output : *(reader.native_outputs()))
   {
     const circle::TensorT &tensor = *tensors[output];
 
