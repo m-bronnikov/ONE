@@ -279,7 +279,7 @@ std::unique_ptr<Module> Importer::importModule(const circle::Model *model) const
     if (!reader.select_subgraph(g))
       return nullptr;
 
-    graph->name(reader.name());
+    graph->name(reader.native_name());
 
     // Convert circle::Model to loco::Graph
     convert_graph(*source_ptr, reader, graph.get());
