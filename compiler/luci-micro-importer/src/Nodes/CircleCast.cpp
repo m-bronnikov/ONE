@@ -35,19 +35,19 @@ bool CircleCastGraphBuilder::validate(const ValidateArgs &args) const
 
   auto settings = luci::UserSettings::settings();
 
-  const auto &inputs = args.op.inputs;
-  const auto &outputs = args.op.outputs;
+  const auto &inputs = *(args.op->inputs());
+  const auto &outputs = *(args.op->outputs());
 
   // NOTE real models do have type mismatch
-  const auto *options = args.op.builtin_options.AsCastOptions();
+  const auto *options = args.op->builtin_options_as_CastOptions();
   if (options != nullptr)
   {
     const auto &tensors = args.reader.tensors();
     const circle::TensorT &output_tensor = *tensors[outputs[0]];
     auto name = tensor_name(output_tensor);
 
-    const auto &tensor_in = tensors.at(inputs.at(0));
-    if (tensor_in->type != options->in_data_type)
+    const auto &tensor_in = tensors.at(inputs[0]);
+    if (tensor_in->type != options->in_data_type())
     {
       if (settings->get(luci::UserSettings::Key::DisableValidation))
       {
@@ -57,7 +57,7 @@ bool CircleCastGraphBuilder::validate(const ValidateArgs &args) const
         return false;
     }
     const auto &tensor_out = tensors.at(outputs[0]);
-    if (tensor_out->type != options->out_data_type)
+    if (tensor_out->type != options->out_data_type())
     {
       if (settings->get(luci::UserSettings::Key::DisableValidation))
       {
@@ -71,18 +71,18 @@ bool CircleCastGraphBuilder::validate(const ValidateArgs &args) const
   return true;
 }
 
-CircleNode *CircleCastGraphBuilder::build_node(const circle::OperatorT &op,
+CircleNode *CircleCastGraphBuilder::build_node(const circle::Operator *op,
                                                const std::vector<CircleNode *> &inputs,
                                                loco::Graph *graph) const
 {
   auto *node = graph->nodes()->create<CircleCast>();
   node->x(inputs.at(0));
 
-  const auto *options = op.builtin_options.AsCastOptions();
+  const auto *options = op->builtin_options_as_CastOptions();
   if (options != nullptr)
   {
-    node->in_data_type(luci_datatype(options->in_data_type));
-    node->out_data_type(luci_datatype(options->out_data_type));
+    node->in_data_type(luci_datatype(options->in_data_type()));
+    node->out_data_type(luci_datatype(options->out_data_type()));
   }
   else
   {

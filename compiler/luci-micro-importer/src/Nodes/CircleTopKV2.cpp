@@ -27,8 +27,8 @@ namespace luci
 
 bool CircleTopKV2GraphBuilder::validate(const ValidateArgs &args) const
 {
-  const auto &inputs = args.op.inputs;
-  const auto &outputs = args.op.outputs;
+  const auto &inputs = *(args.op->inputs());
+  const auto &outputs = *(args.op->outputs());
 
   if (inputs.size() != 2)
     return false;
@@ -36,7 +36,7 @@ bool CircleTopKV2GraphBuilder::validate(const ValidateArgs &args) const
     return false;
 
   const auto &tensors = args.reader.tensors();
-  const auto &tensor = tensors.at(inputs.at(1));
+  const auto &tensor = tensors.at(inputs[1]);
   if (tensor->type != circle::TensorType_INT32)
     return false;
 

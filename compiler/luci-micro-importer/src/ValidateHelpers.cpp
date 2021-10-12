@@ -21,13 +21,13 @@ namespace luci
 
 bool validate_batch_space_nd(const GraphBuilderBase::ValidateArgs &args)
 {
-  const auto &inputs = args.op.inputs;
+  const auto &inputs = *(args.op->inputs());
   if (inputs.size() != 3)
     return false;
 
   // input 1 and 2 should have INT32/INT64 type
   const auto &tensors = args.reader.tensors();
-  const auto &tensor_1 = tensors.at(inputs.at(1));
+  const auto &tensor_1 = tensors.at(inputs[1]);
   switch (tensor_1->type)
   {
     case circle::TensorType_INT32:
@@ -36,7 +36,7 @@ bool validate_batch_space_nd(const GraphBuilderBase::ValidateArgs &args)
     default:
       return false;
   }
-  const auto &tensor_2 = tensors.at(inputs.at(2));
+  const auto &tensor_2 = tensors.at(inputs[2]);
   switch (tensor_2->type)
   {
     case circle::TensorType_INT32:
@@ -47,7 +47,7 @@ bool validate_batch_space_nd(const GraphBuilderBase::ValidateArgs &args)
   }
 
   // Only support input shape dimension 3 and 4 only
-  const auto &tensor_0 = tensors.at(inputs.at(0));
+  const auto &tensor_0 = tensors.at(inputs[0]);
   const auto t_0_s = tensor_0->shape.size();
   if (t_0_s != 3 && t_0_s != 4)
     return false;
@@ -59,8 +59,8 @@ bool validate_batch_space_nd(const GraphBuilderBase::ValidateArgs &args)
 
 bool validate_minmax(const GraphBuilderBase::ValidateArgs &args)
 {
-  const auto &inputs = args.op.inputs;
-  const auto &outputs = args.op.outputs;
+  const auto &inputs = *(args.op->inputs());
+  const auto &outputs = *(args.op->outputs());
 
   if (inputs.size() != 2)
     return false;
@@ -69,7 +69,7 @@ bool validate_minmax(const GraphBuilderBase::ValidateArgs &args)
     return false;
 
   const auto &tensors = args.reader.tensors();
-  const auto &tensor = tensors.at(inputs.at(0));
+  const auto &tensor = tensors.at(inputs[0]);
 
   switch (tensor->type)
   {
@@ -84,7 +84,7 @@ bool validate_minmax(const GraphBuilderBase::ValidateArgs &args)
       return false;
   }
 
-  if (tensors[inputs.at(1)]->type != tensor->type)
+  if (tensors[inputs[1]]->type != tensor->type)
     return false;
 
   if (tensors[outputs[0]]->type != tensor->type)
@@ -95,8 +95,8 @@ bool validate_minmax(const GraphBuilderBase::ValidateArgs &args)
 
 bool validate_reduce_minmax(const GraphBuilderBase::ValidateArgs &args)
 {
-  const auto &inputs = args.op.inputs;
-  const auto &outputs = args.op.outputs;
+  const auto &inputs = *(args.op->inputs());
+  const auto &outputs = *(args.op->outputs());
 
   if (inputs.size() != 2)
     return false;
@@ -105,7 +105,7 @@ bool validate_reduce_minmax(const GraphBuilderBase::ValidateArgs &args)
     return false;
 
   const auto &tensors = args.reader.tensors();
-  const auto &tensor_axis = tensors.at(inputs.at(1));
+  const auto &tensor_axis = tensors.at(inputs[1]);
 
   switch (tensor_axis->type)
   {

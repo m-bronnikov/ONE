@@ -27,14 +27,14 @@ namespace luci
 
 bool CircleSplitGraphBuilder::validate(const ValidateArgs &args) const
 {
-  const auto &inputs = args.op.inputs;
-  const auto &outputs = args.op.outputs;
-  const auto *options = args.op.builtin_options.AsSplitOptions();
+  const auto &inputs = *(args.op->inputs());
+  const auto &outputs = *(args.op->outputs());
+  const auto *options = args.op->builtin_options_as_SplitOptions();
 
   if (inputs.size() != 2)
     return false;
 
-  if (static_cast<int32_t>(outputs.size()) != options->num_splits)
+  if (static_cast<int32_t>(outputs.size()) != options->num_splits())
     return false;
 
   // TODO check types
@@ -65,8 +65,8 @@ CircleNode *CircleSplitGraphBuilder::build_node(const BuildNodeArgs &bna) const
   node->split_dim(bna.input_nodes[0]);
   node->input(bna.input_nodes[1]);
 
-  const auto *options = bna.op.builtin_options.AsSplitOptions();
-  node->num_split(options->num_splits);
+  const auto *options = bna.op->builtin_options_as_SplitOptions();
+  node->num_split(options->num_splits());
 
   return node;
 }

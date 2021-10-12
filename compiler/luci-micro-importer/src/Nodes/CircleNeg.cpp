@@ -28,7 +28,7 @@ bool CircleNegGraphBuilder::validate(const ValidateArgs &args) const
   return GraphBuilder::validate(args, 1);
 }
 
-CircleNode *CircleNegGraphBuilder::build_node(const circle::OperatorT &,
+CircleNode *CircleNegGraphBuilder::build_node(const circle::Operator *,
                                               const std::vector<CircleNode *> &inputs,
                                               loco::Graph *graph) const
 {

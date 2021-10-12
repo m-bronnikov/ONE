@@ -28,13 +28,13 @@ bool CircleEqualGraphBuilder::validate(const ValidateArgs &args) const
   if (!GraphBuilder::validate(args, 2))
     return false;
 
-  const auto &inputs = args.op.inputs;
+  const auto &inputs = *(args.op->inputs());
   const auto &tensors = args.reader.tensors();
 
-  return tensors[inputs.at(0)]->type == tensors[inputs.at(1)]->type;
+  return tensors[inputs[0]]->type == tensors[inputs[1]]->type;
 }
 
-CircleNode *CircleEqualGraphBuilder::build_node(const circle::OperatorT &,
+CircleNode *CircleEqualGraphBuilder::build_node(const circle::Operator *,
                                                 const std::vector<CircleNode *> &inputs,
                                                 loco::Graph *graph) const
 {

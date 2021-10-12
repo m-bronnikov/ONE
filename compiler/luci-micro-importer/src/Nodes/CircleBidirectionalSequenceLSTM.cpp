@@ -26,9 +26,9 @@ namespace luci
 
 bool CircleBidirectionalSequenceLSTMGraphBuilder::validate(const ValidateArgs &args) const
 {
-  if (args.op.inputs.size() != 48)
+  if (args.op->inputs()->size() != 48)
     return false;
-  if (args.op.outputs.size() != 2)
+  if (args.op->outputs()->size() != 2)
     return false;
 
   return true;
@@ -88,13 +88,13 @@ CircleNode *CircleBidirectionalSequenceLSTMGraphBuilder::build_node(const BuildN
   node->bw_auxillary_input_to_cell_weights(inputs.at(46));   // Optional
   node->bw_auxillary_input_to_output_weights(inputs.at(47)); // Optional
 
-  const auto *options = bna.op.builtin_options.AsBidirectionalSequenceLSTMOptions();
-  node->fusedActivationFunction(luci_actfunc(options->fused_activation_function));
-  node->cell_clip(options->cell_clip);
-  node->proj_clip(options->proj_clip);
-  node->merge_outputs(options->merge_outputs);
-  node->time_major(options->time_major);
-  node->asymmetric_quantize_inputs(options->asymmetric_quantize_inputs);
+  const auto *options = bna.op->builtin_options_as_BidirectionalSequenceLSTMOptions();
+  node->fusedActivationFunction(luci_actfunc(options->fused_activation_function()));
+  node->cell_clip(options->cell_clip());
+  node->proj_clip(options->proj_clip());
+  node->merge_outputs(options->merge_outputs());
+  node->time_major(options->time_major());
+  node->asymmetric_quantize_inputs(options->asymmetric_quantize_inputs());
 
   return node;
 }

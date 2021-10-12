@@ -35,11 +35,11 @@ bool CircleGreaterGraphBuilder::validate(const ValidateArgs &args) const
 
   auto settings = luci::UserSettings::settings();
 
-  const auto &inputs = args.op.inputs;
-  const auto &outputs = args.op.outputs;
+  const auto &inputs = *(args.op->inputs());
+  const auto &outputs = *(args.op->outputs());
   const auto &tensors = args.reader.tensors();
 
-  if (tensors[inputs.at(0)]->type != tensors[inputs.at(1)]->type)
+  if (tensors[inputs[0]]->type != tensors[inputs[1]]->type)
     return false;
 
   // NOTE: real models do have output dtype NOT BOOL
@@ -58,7 +58,7 @@ bool CircleGreaterGraphBuilder::validate(const ValidateArgs &args) const
   return true;
 }
 
-CircleNode *CircleGreaterGraphBuilder::build_node(const circle::OperatorT &,
+CircleNode *CircleGreaterGraphBuilder::build_node(const circle::Operator *,
                                                   const std::vector<CircleNode *> &inputs,
                                                   loco::Graph *graph) const
 {

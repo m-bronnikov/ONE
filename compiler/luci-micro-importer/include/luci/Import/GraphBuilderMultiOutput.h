@@ -33,18 +33,18 @@ class GraphBuilderMultiOutput : public GraphBuilderBase
 public:
   virtual ~GraphBuilderMultiOutput() = default;
 
-  CircleNode *build(const circle::OperatorT &op, GraphBuilderContext *context) const final;
+  CircleNode *build(const circle::Operator *op, GraphBuilderContext *context) const final;
 
 protected:
   struct BuildNodeArgs
   {
-    BuildNodeArgs(const circle::OperatorT &o, GraphBuilderContext *c,
+    BuildNodeArgs(const circle::Operator *o, GraphBuilderContext *c,
                   const std::vector<CircleNode *> &i)
       : op(o), context(c), input_nodes(i)
     {
     }
 
-    const circle::OperatorT &op;
+    const circle::Operator *op;
     GraphBuilderContext *context;
     const std::vector<CircleNode *> &input_nodes;
   };

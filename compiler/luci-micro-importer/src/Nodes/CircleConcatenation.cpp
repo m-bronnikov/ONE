@@ -23,16 +23,16 @@ namespace luci
 
 bool CircleConcatenationGraphBuilder::validate(const ValidateArgs &args) const
 {
-  if (args.op.inputs.size() < 1)
+  if (args.op->inputs()->size() < 1)
     return false;
 
-  if (args.op.outputs.size() != 1)
+  if (args.op->outputs()->size() != 1)
     return false;
 
   return true;
 }
 
-CircleNode *CircleConcatenationGraphBuilder::build_node(const circle::OperatorT &op,
+CircleNode *CircleConcatenationGraphBuilder::build_node(const circle::Operator *op,
                                                         const std::vector<CircleNode *> &inputs,
                                                         loco::Graph *graph) const
 {
@@ -42,9 +42,9 @@ CircleNode *CircleConcatenationGraphBuilder::build_node(const circle::OperatorT 
     node->values(i, inputs[i]);
   }
 
-  const auto *options = op.builtin_options.AsConcatenationOptions();
-  node->axis(options->axis);
-  node->fusedActivationFunction(luci_actfunc(options->fused_activation_function));
+  const auto *options = op->builtin_options_as_ConcatenationOptions();
+  node->axis(options->axis());
+  node->fusedActivationFunction(luci_actfunc(options->fused_activation_function()));
 
   return node;
 }

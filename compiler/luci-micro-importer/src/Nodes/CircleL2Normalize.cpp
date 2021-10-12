@@ -28,14 +28,14 @@ bool CircleL2NormalizeGraphBuilder::validate(const ValidateArgs &args) const
   return GraphBuilder::validate(args, 1);
 }
 
-CircleNode *CircleL2NormalizeGraphBuilder::build_node(const circle::OperatorT &op,
+CircleNode *CircleL2NormalizeGraphBuilder::build_node(const circle::Operator *op,
                                                       const std::vector<CircleNode *> &inputs,
                                                       loco::Graph *graph) const
 {
   auto *node = graph->nodes()->create<CircleL2Normalize>();
   node->x(inputs.at(0));
-  const auto *options = op.builtin_options.AsL2NormOptions();
-  node->fusedActivationFunction(luci_actfunc(options->fused_activation_function));
+  const auto *options = op->builtin_options_as_L2NormOptions();
+  node->fusedActivationFunction(luci_actfunc(options->fused_activation_function()));
 
   return node;
 }

@@ -28,12 +28,12 @@ bool CircleRsqrtGraphBuilder::validate(const ValidateArgs &args) const
   if (!GraphBuilder::validate(args, 1))
     return false;
 
-  const auto &inputs = args.op.inputs;
+  const auto &inputs = *(args.op->inputs());
   // Must be one of the following types
   // bfloat16, half (float16), float32, float64, complex64, complex128
   // Currently, circle supports float16, float32, complex64
   const auto &tensors = args.reader.tensors();
-  const auto &tensor = tensors.at(inputs.at(0));
+  const auto &tensor = tensors.at(inputs[0]);
   switch (tensor->type)
   {
     case circle::TensorType_UINT8:
@@ -49,7 +49,7 @@ bool CircleRsqrtGraphBuilder::validate(const ValidateArgs &args) const
   return true;
 }
 
-CircleNode *CircleRsqrtGraphBuilder::build_node(const circle::OperatorT &,
+CircleNode *CircleRsqrtGraphBuilder::build_node(const circle::Operator *,
                                                 const std::vector<CircleNode *> &inputs,
                                                 loco::Graph *graph) const
 {

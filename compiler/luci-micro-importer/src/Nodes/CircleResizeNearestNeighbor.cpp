@@ -27,14 +27,14 @@ bool CircleResizeNearestNeighborGraphBuilder::validate(const ValidateArgs &args)
 }
 
 CircleNode *CircleResizeNearestNeighborGraphBuilder::build_node(
-  const circle::OperatorT &op, const std::vector<CircleNode *> &inputs, loco::Graph *graph) const
+  const circle::Operator *op, const std::vector<CircleNode *> &inputs, loco::Graph *graph) const
 {
   auto *node = graph->nodes()->create<CircleResizeNearestNeighbor>();
   node->input(inputs.at(0));
   node->size(inputs.at(1));
 
-  const auto *options = op.builtin_options.AsResizeNearestNeighborOptions();
-  node->align_corners(options->align_corners);
+  const auto *options = op->builtin_options_as_ResizeNearestNeighborOptions();
+  node->align_corners(options->align_corners());
 
   return node;
 }

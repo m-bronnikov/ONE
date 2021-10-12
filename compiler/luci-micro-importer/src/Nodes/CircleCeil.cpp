@@ -29,7 +29,7 @@ bool CircleCeilGraphBuilder::validate(const ValidateArgs &args) const
   return GraphBuilder::validate(args, 1);
 }
 
-CircleNode *CircleCeilGraphBuilder::build_node(const circle::OperatorT &,
+CircleNode *CircleCeilGraphBuilder::build_node(const circle::Operator *,
                                                const std::vector<CircleNode *> &inputs,
                                                loco::Graph *graph) const
 {

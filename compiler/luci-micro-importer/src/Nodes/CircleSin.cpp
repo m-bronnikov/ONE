@@ -28,10 +28,10 @@ bool CircleSinGraphBuilder::validate(const ValidateArgs &args) const
   if (!GraphBuilder::validate(args, 1))
     return false;
 
-  const auto &inputs = args.op.inputs;
+  const auto &inputs = *(args.op->inputs());
   // input type check
   const auto &tensors = args.reader.tensors();
-  const auto &tensor = tensors.at(inputs.at(0));
+  const auto &tensor = tensors.at(inputs[0]);
   switch (tensor->type)
   {
     case circle::TensorType_FLOAT16:
@@ -46,7 +46,7 @@ bool CircleSinGraphBuilder::validate(const ValidateArgs &args) const
   return true;
 }
 
-CircleNode *CircleSinGraphBuilder::build_node(const circle::OperatorT &,
+CircleNode *CircleSinGraphBuilder::build_node(const circle::Operator *,
                                               const std::vector<CircleNode *> &inputs,
                                               loco::Graph *graph) const
 {

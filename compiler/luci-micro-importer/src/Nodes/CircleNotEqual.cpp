@@ -28,11 +28,11 @@ bool CircleNotEqualGraphBuilder::validate(const ValidateArgs &args) const
   if (!GraphBuilder::validate(args, 2))
     return false;
 
-  const auto &inputs = args.op.inputs;
-  const auto &outputs = args.op.outputs;
+  const auto &inputs = *(args.op->inputs());
+  const auto &outputs = *(args.op->outputs());
   const auto &tensors = args.reader.tensors();
 
-  if (tensors[inputs.at(0)]->type != tensors[inputs.at(1)]->type)
+  if (tensors[inputs[0]]->type != tensors[inputs[1]]->type)
   {
     return false;
   }
@@ -40,7 +40,7 @@ bool CircleNotEqualGraphBuilder::validate(const ValidateArgs &args) const
   return tensors[outputs[0]]->type == circle::TensorType::TensorType_BOOL;
 }
 
-CircleNode *CircleNotEqualGraphBuilder::build_node(const circle::OperatorT &,
+CircleNode *CircleNotEqualGraphBuilder::build_node(const circle::Operator *,
                                                    const std::vector<CircleNode *> &inputs,
                                                    loco::Graph *graph) const
 {

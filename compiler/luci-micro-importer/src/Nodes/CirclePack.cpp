@@ -26,14 +26,14 @@ namespace luci
 
 bool CirclePackGraphBuilder::validate(const ValidateArgs &args) const
 {
-  const auto &inputs = args.op.inputs;
-  const auto &outputs = args.op.outputs;
-  const auto *options = args.op.builtin_options.AsPackOptions();
+  const auto &inputs = *(args.op->inputs());
+  const auto &outputs = *(args.op->outputs());
+  const auto *options = args.op->builtin_options_as_PackOptions();
 
-  if (options->values_count < 1)
+  if (options->values_count() < 1)
     return false;
 
-  if (inputs.size() != static_cast<uint32_t>(options->values_count))
+  if (inputs.size() != static_cast<uint32_t>(options->values_count()))
     return false;
 
   if (outputs.size() != 1)
@@ -42,7 +42,7 @@ bool CirclePackGraphBuilder::validate(const ValidateArgs &args) const
   return true;
 }
 
-CircleNode *CirclePackGraphBuilder::build_node(const circle::OperatorT &op,
+CircleNode *CirclePackGraphBuilder::build_node(const circle::Operator *op,
                                                const std::vector<CircleNode *> &inputs,
                                                loco::Graph *graph) const
 {
@@ -52,8 +52,8 @@ CircleNode *CirclePackGraphBuilder::build_node(const circle::OperatorT &op,
     node->values(i, inputs[i]);
   }
 
-  const auto *options = op.builtin_options.AsPackOptions();
-  node->axis(options->axis);
+  const auto *options = op->builtin_options_as_PackOptions();
+  node->axis(options->axis());
 
   return node;
 }

@@ -21,22 +21,23 @@
 namespace luci
 {
 
-CircleNode *GraphBuilder::build(const circle::OperatorT &op, GraphBuilderContext *context) const
+CircleNode *GraphBuilder::build(const circle::Operator *op, GraphBuilderContext *context) const
 {
   LOGGER(l);
 
   assert(context != nullptr);
 
-  const std::vector<int32_t> &inputs = op.inputs;
-  const std::vector<int32_t> &outputs = op.outputs;
+  auto const inputs = op->inputs();
+  auto const outputs = op->outputs();
   const auto &tensors = context->reader()->tensors();
   const auto &opcodes = context->reader()->opcodes();
   auto tensors_ptr = context->reader()->native_tensors();
   assert(tensors_ptr != nullptr);
 
   std::vector<CircleNode *> input_nodes;
-  for (const int32_t input_tensor_index : inputs)
+  for (uint32_t i = 0; i < inputs->size(); ++i)
   {
+    auto const input_tensor_index = inputs->Get(i);
     if (input_tensor_index >= 0)
     {
       auto input = context->nodefinder()->node(input_tensor_index);
@@ -58,24 +59,25 @@ CircleNode *GraphBuilder::build(const circle::OperatorT &op, GraphBuilderContext
   CircleNode *node = build_node(op, input_nodes, context->graph());
 
   // Set up node parameters.
-  assert(outputs.size() == 1);
+  assert(outputs->size() == 1);
   {
-    const circle::TensorT &output_tensor = *tensors[outputs[0]];
+    auto const output_tensor_index = outputs->Get(0);
+    const circle::TensorT &output_tensor = *tensors[output_tensor_index];
     copy_tensor_attributes(output_tensor, node);
     // mark shape_status
-    if (tensors_ptr->Get(outputs[0])->shape() == nullptr)
+    if (tensors_ptr->Get(output_tensor_index)->shape() == nullptr)
       node->shape_status(ShapeStatus::NOSHAPE);
     else
       node->shape_status(ShapeStatus::VALID);
 
     // mark operator version
-    node->op_version(opcodes[op.opcode_index].get()->version);
+    node->op_version(opcodes[op->opcode_index()].get()->version);
   }
 
   // Register node's only output.
-  assert(outputs.size() == 1);
+  assert(outputs->size() == 1);
   {
-    context->nodefinder()->enroll(outputs[0], node);
+    context->nodefinder()->enroll(outputs->Get(0), node);
   }
 
   return node;

@@ -29,7 +29,7 @@ bool CircleLogicalOrGraphBuilder::validate(const ValidateArgs &args) const
     return false;
 
   // Only BOOL type is allowed for inputs
-  const auto &inputs = args.op.inputs;
+  const auto &inputs = *(args.op->inputs());
   const auto &tensors = args.reader.tensors();
   for (auto input : inputs)
   {
@@ -41,7 +41,7 @@ bool CircleLogicalOrGraphBuilder::validate(const ValidateArgs &args) const
   return true;
 }
 
-CircleNode *CircleLogicalOrGraphBuilder::build_node(const circle::OperatorT &,
+CircleNode *CircleLogicalOrGraphBuilder::build_node(const circle::Operator *,
                                                     const std::vector<CircleNode *> &inputs,
                                                     loco::Graph *graph) const
 {

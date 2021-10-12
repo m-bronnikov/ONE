@@ -26,16 +26,16 @@ namespace luci
 bool CircleDepthwiseConv2DGraphBuilder::validate(const ValidateArgs &args) const
 {
   // Circle DepthwiseConv2D may not have a bias but we won't support this
-  if (args.op.inputs.size() != 3 && args.op.inputs.size() != 2)
+  if (args.op->inputs()->size() != 3 && args.op->inputs()->size() != 2)
     return false;
 
-  if (args.op.outputs.size() != 1)
+  if (args.op->outputs()->size() != 1)
     return false;
 
   const auto &tensors = args.reader.tensors();
 
   // input shape
-  const auto &input = tensors.at(args.op.inputs.at(0));
+  const auto &input = tensors.at(args.op->inputs()->Get(0));
   const auto &input_shape = input->shape;
 
   // input shape must be rank 4
@@ -43,7 +43,7 @@ bool CircleDepthwiseConv2DGraphBuilder::validate(const ValidateArgs &args) const
     return false;
 
   // filter shape
-  const auto &filter = tensors.at(args.op.inputs.at(1));
+  const auto &filter = tensors.at(args.op->inputs()->Get(1));
   const auto &filter_shape = filter->shape;
 
   // filter shape must be rank 4
@@ -51,8 +51,8 @@ bool CircleDepthwiseConv2DGraphBuilder::validate(const ValidateArgs &args) const
     return false;
 
   // multiplier
-  const auto *options = args.op.builtin_options.AsDepthwiseConv2DOptions();
-  const auto &multiplier = options->depth_multiplier;
+  const auto *options = args.op->builtin_options_as_DepthwiseConv2DOptions();
+  const auto &multiplier = options->depth_multiplier();
 
   // filter represents as [1, H, W, C*M] where M is multiplier.
   if (filter_shape.at(3) != input_shape.at(3) * multiplier)
@@ -61,7 +61,7 @@ bool CircleDepthwiseConv2DGraphBuilder::validate(const ValidateArgs &args) const
   return true;
 }
 
-CircleNode *CircleDepthwiseConv2DGraphBuilder::build_node(const circle::OperatorT &op,
+CircleNode *CircleDepthwiseConv2DGraphBuilder::build_node(const circle::Operator *op,
                                                           const std::vector<CircleNode *> &inputs,
                                                           loco::Graph *graph) const
 {
@@ -72,14 +72,14 @@ CircleNode *CircleDepthwiseConv2DGraphBuilder::build_node(const circle::Operator
     throw oops::UserExn("DepthwiseConv2d without bias is unsupported");
   node->bias(inputs.at(2));
 
-  const auto *options = op.builtin_options.AsDepthwiseConv2DOptions();
-  node->padding(luci_padding(options->padding));
-  node->stride()->w(options->stride_w);
-  node->stride()->h(options->stride_h);
-  node->depthMultiplier(options->depth_multiplier);
-  node->fusedActivationFunction(luci_actfunc(options->fused_activation_function));
-  node->dilation()->w(options->dilation_w_factor);
-  node->dilation()->h(options->dilation_h_factor);
+  const auto *options = op->builtin_options_as_DepthwiseConv2DOptions();
+  node->padding(luci_padding(options->padding()));
+  node->stride()->w(options->stride_w());
+  node->stride()->h(options->stride_h());
+  node->depthMultiplier(options->depth_multiplier());
+  node->fusedActivationFunction(luci_actfunc(options->fused_activation_function()));
+  node->dilation()->w(options->dilation_w_factor());
+  node->dilation()->h(options->dilation_h_factor());
 
   return node;
 }

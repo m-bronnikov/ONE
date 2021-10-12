@@ -29,7 +29,7 @@ bool CircleInstanceNormGraphBuilder::validate(const ValidateArgs &args) const
   return GraphBuilder::validate(args, 3);
 }
 
-CircleNode *CircleInstanceNormGraphBuilder::build_node(const circle::OperatorT &op,
+CircleNode *CircleInstanceNormGraphBuilder::build_node(const circle::Operator *op,
                                                        const std::vector<CircleNode *> &inputs,
                                                        loco::Graph *graph) const
 {
@@ -38,9 +38,9 @@ CircleNode *CircleInstanceNormGraphBuilder::build_node(const circle::OperatorT &
   node->gamma(inputs.at(1));
   node->beta(inputs.at(2));
 
-  const auto *options = op.builtin_options.AsInstanceNormOptions();
-  node->epsilon(options->epsilon);
-  node->fusedActivationFunction(luci_actfunc(options->fused_activation_function));
+  const auto *options = op->builtin_options_as_InstanceNormOptions();
+  node->epsilon(options->epsilon());
+  node->fusedActivationFunction(luci_actfunc(options->fused_activation_function()));
 
   return node;
 }

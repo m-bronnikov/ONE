@@ -31,15 +31,15 @@ bool CircleSpaceToDepthGraphBuilder::validate(const ValidateArgs &args) const
   return GraphBuilder::validate(args, 1);
 }
 
-CircleNode *CircleSpaceToDepthGraphBuilder::build_node(const circle::OperatorT &op,
+CircleNode *CircleSpaceToDepthGraphBuilder::build_node(const circle::Operator *op,
                                                        const std::vector<CircleNode *> &inputs,
                                                        loco::Graph *graph) const
 {
   auto *node = graph->nodes()->create<CircleSpaceToDepth>();
   node->input(inputs.at(0));
 
-  const auto *options = op.builtin_options.AsSpaceToDepthOptions();
-  node->block_size(options->block_size);
+  const auto *options = op->builtin_options_as_SpaceToDepthOptions();
+  node->block_size(options->block_size());
 
   return node;
 }

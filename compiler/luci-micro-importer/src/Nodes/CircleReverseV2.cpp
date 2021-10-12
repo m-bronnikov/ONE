@@ -28,11 +28,11 @@ bool CircleReverseV2GraphBuilder::validate(const ValidateArgs &args) const
   if (!GraphBuilder::validate(args, 2))
     return false;
 
-  const auto &inputs = args.op.inputs;
-  const auto &outputs = args.op.outputs;
+  const auto &inputs = *(args.op->inputs());
+  const auto &outputs = *(args.op->outputs());
   const auto &tensors = args.reader.tensors();
-  const auto &tensor_in = tensors.at(inputs.at(0));
-  const auto &tensor_axis = tensors.at(inputs.at(1));
+  const auto &tensor_in = tensors.at(inputs[0]);
+  const auto &tensor_axis = tensors.at(inputs[1]);
   const auto &tensor_out = tensors.at(outputs[0]);
 
   switch (tensor_axis->type)
@@ -50,7 +50,7 @@ bool CircleReverseV2GraphBuilder::validate(const ValidateArgs &args) const
   return true;
 }
 
-CircleNode *CircleReverseV2GraphBuilder::build_node(const circle::OperatorT &,
+CircleNode *CircleReverseV2GraphBuilder::build_node(const circle::Operator *,
                                                     const std::vector<CircleNode *> &inputs,
                                                     loco::Graph *graph) const
 {

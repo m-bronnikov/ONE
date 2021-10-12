@@ -29,15 +29,15 @@ bool CircleSoftmaxGraphBuilder::validate(const ValidateArgs &args) const
   return GraphBuilder::validate(args, 1);
 }
 
-CircleNode *CircleSoftmaxGraphBuilder::build_node(const circle::OperatorT &op,
+CircleNode *CircleSoftmaxGraphBuilder::build_node(const circle::Operator *op,
                                                   const std::vector<CircleNode *> &inputs,
                                                   loco::Graph *graph) const
 {
   auto *node = graph->nodes()->create<CircleSoftmax>();
   node->logits(inputs.at(0));
 
-  const auto *options = op.builtin_options.AsSoftmaxOptions();
-  node->beta(options->beta);
+  const auto *options = op->builtin_options_as_SoftmaxOptions();
+  node->beta(options->beta());
 
   return node;
 }

@@ -33,14 +33,14 @@ struct GraphBuilderBase
 {
   struct ValidateArgs
   {
-    ValidateArgs(const circle::OperatorT &o, const CircleReader &r) : op(o), reader(r) {}
+    ValidateArgs(const circle::Operator *o, const CircleReader &r) : op(o), reader(r) {}
 
-    const circle::OperatorT &op;
+    const circle::Operator *op;
     const CircleReader &reader;
   };
 
   virtual bool validate(const ValidateArgs &) const = 0;
-  virtual CircleNode *build(const circle::OperatorT &op, GraphBuilderContext *context) const = 0;
+  virtual CircleNode *build(const circle::Operator *op, GraphBuilderContext *context) const = 0;
 
   virtual ~GraphBuilderBase() = default;
 };

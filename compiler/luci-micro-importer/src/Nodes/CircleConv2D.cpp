@@ -31,7 +31,7 @@ bool CircleConv2DGraphBuilder::validate(const ValidateArgs &args) const
   return GraphBuilder::validate(args, 3);
 }
 
-CircleNode *CircleConv2DGraphBuilder::build_node(const circle::OperatorT &op,
+CircleNode *CircleConv2DGraphBuilder::build_node(const circle::Operator *op,
                                                  const std::vector<CircleNode *> &inputs,
                                                  loco::Graph *graph) const
 {
@@ -42,13 +42,13 @@ CircleNode *CircleConv2DGraphBuilder::build_node(const circle::OperatorT &op,
   assert(inputs.size() == 3);
   node->bias(inputs.at(2));
 
-  const auto *options = op.builtin_options.AsConv2DOptions();
-  node->padding(luci_padding(options->padding));
-  node->stride()->w(options->stride_w);
-  node->stride()->h(options->stride_h);
-  node->fusedActivationFunction(luci_actfunc(options->fused_activation_function));
-  node->dilation()->w(options->dilation_w_factor);
-  node->dilation()->h(options->dilation_h_factor);
+  const auto *options = op->builtin_options_as_Conv2DOptions();
+  node->padding(luci_padding(options->padding()));
+  node->stride()->w(options->stride_w());
+  node->stride()->h(options->stride_h());
+  node->fusedActivationFunction(luci_actfunc(options->fused_activation_function()));
+  node->dilation()->w(options->dilation_w_factor());
+  node->dilation()->h(options->dilation_h_factor());
 
   return node;
 }

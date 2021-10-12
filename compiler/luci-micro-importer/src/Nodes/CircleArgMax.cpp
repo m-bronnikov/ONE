@@ -28,7 +28,7 @@ bool CircleArgMaxGraphBuilder::validate(const ValidateArgs &args) const
   return GraphBuilder::validate(args, 2);
 }
 
-CircleNode *CircleArgMaxGraphBuilder::build_node(const circle::OperatorT &op,
+CircleNode *CircleArgMaxGraphBuilder::build_node(const circle::Operator *op,
                                                  const std::vector<CircleNode *> &inputs,
                                                  loco::Graph *graph) const
 {
@@ -36,8 +36,8 @@ CircleNode *CircleArgMaxGraphBuilder::build_node(const circle::OperatorT &op,
   node->input(inputs.at(0));
   node->dimension(inputs.at(1));
 
-  const auto *options = op.builtin_options.AsArgMaxOptions();
-  node->output_type(luci_datatype(options->output_type));
+  const auto *options = op->builtin_options_as_ArgMaxOptions();
+  node->output_type(luci_datatype(options->output_type()));
 
   return node;
 }

@@ -27,14 +27,14 @@ namespace luci
 
 bool CircleTransposeConvGraphBuilder::validate(const ValidateArgs &args) const
 {
-  if (args.op.inputs.size() != 3 && args.op.inputs.size() != 4)
+  if (args.op->inputs()->size() != 3 && args.op->inputs()->size() != 4)
     return false;
 
-  const auto &inputs = args.op.inputs;
+  const auto &inputs = *(args.op->inputs());
   const auto &tensors = args.reader.tensors();
-  const auto &filter_tensor = tensors.at(inputs.at(1));
+  const auto &filter_tensor = tensors.at(inputs[1]);
   const auto &filter_shape = filter_tensor.get()->shape;
-  const auto &ifm_tensor = tensors.at(inputs.at(2));
+  const auto &ifm_tensor = tensors.at(inputs[2]);
   const auto &ifm_shape = ifm_tensor.get()->shape;
 
   // ifm and filters must be 4-D tensor
@@ -51,7 +51,7 @@ bool CircleTransposeConvGraphBuilder::validate(const ValidateArgs &args) const
   return true;
 }
 
-CircleNode *CircleTransposeConvGraphBuilder::build_node(const circle::OperatorT &op,
+CircleNode *CircleTransposeConvGraphBuilder::build_node(const circle::Operator *op,
                                                         const std::vector<CircleNode *> &inputs,
                                                         loco::Graph *graph) const
 {
@@ -71,10 +71,10 @@ CircleNode *CircleTransposeConvGraphBuilder::build_node(const circle::OperatorT 
   else
     node->bias(inputs.at(3));
 
-  const auto *options = op.builtin_options.AsTransposeConvOptions();
-  node->padding(luci_padding(options->padding));
-  node->stride()->w(options->stride_w);
-  node->stride()->h(options->stride_h);
+  const auto *options = op->builtin_options_as_TransposeConvOptions();
+  node->padding(luci_padding(options->padding()));
+  node->stride()->w(options->stride_w());
+  node->stride()->h(options->stride_h());
 
   return node;
 }

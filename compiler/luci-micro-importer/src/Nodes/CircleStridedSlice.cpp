@@ -31,7 +31,7 @@ bool CircleStridedSliceGraphBuilder::validate(const ValidateArgs &args) const
   return GraphBuilder::validate(args, 4);
 }
 
-CircleNode *CircleStridedSliceGraphBuilder::build_node(const circle::OperatorT &op,
+CircleNode *CircleStridedSliceGraphBuilder::build_node(const circle::Operator *op,
                                                        const std::vector<CircleNode *> &inputs,
                                                        loco::Graph *graph) const
 {
@@ -41,12 +41,12 @@ CircleNode *CircleStridedSliceGraphBuilder::build_node(const circle::OperatorT &
   node->end(inputs.at(2));
   node->strides(inputs.at(3));
 
-  const auto *options = op.builtin_options.AsStridedSliceOptions();
-  node->begin_mask(options->begin_mask);
-  node->end_mask(options->end_mask);
-  node->ellipsis_mask(options->ellipsis_mask);
-  node->new_axis_mask(options->new_axis_mask);
-  node->shrink_axis_mask(options->shrink_axis_mask);
+  const auto *options = op->builtin_options_as_StridedSliceOptions();
+  node->begin_mask(options->begin_mask());
+  node->end_mask(options->end_mask());
+  node->ellipsis_mask(options->ellipsis_mask());
+  node->new_axis_mask(options->new_axis_mask());
+  node->shrink_axis_mask(options->shrink_axis_mask());
 
   return node;
 }

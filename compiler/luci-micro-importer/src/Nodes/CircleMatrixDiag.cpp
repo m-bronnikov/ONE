@@ -28,10 +28,10 @@ bool CircleMatrixDiagGraphBuilder::validate(const ValidateArgs &args) const
   if (!GraphBuilder::validate(args, 1))
     return false;
 
-  const auto &inputs = args.op.inputs;
-  const auto &outputs = args.op.outputs;
+  const auto &inputs = *(args.op->inputs());
+  const auto &outputs = *(args.op->outputs());
   const auto &tensors = args.reader.tensors();
-  const auto &tensor = tensors.at(inputs.at(0));
+  const auto &tensor = tensors.at(inputs.Get(0));
 
   if (tensors[outputs[0]]->type != tensor->type)
     return false;
@@ -39,7 +39,7 @@ bool CircleMatrixDiagGraphBuilder::validate(const ValidateArgs &args) const
   return true;
 }
 
-CircleNode *CircleMatrixDiagGraphBuilder::build_node(const circle::OperatorT &,
+CircleNode *CircleMatrixDiagGraphBuilder::build_node(const circle::Operator *,
                                                      const std::vector<CircleNode *> &inputs,
                                                      loco::Graph *graph) const
 {

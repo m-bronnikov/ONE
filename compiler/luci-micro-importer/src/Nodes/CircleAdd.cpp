@@ -28,7 +28,7 @@ bool CircleAddGraphBuilder::validate(const ValidateArgs &args) const
   return GraphBuilder::validate(args, 2);
 }
 
-CircleNode *CircleAddGraphBuilder::build_node(const circle::OperatorT &op,
+CircleNode *CircleAddGraphBuilder::build_node(const circle::Operator *op,
                                               const std::vector<CircleNode *> &inputs,
                                               loco::Graph *graph) const
 {
@@ -36,8 +36,8 @@ CircleNode *CircleAddGraphBuilder::build_node(const circle::OperatorT &op,
   node->x(inputs.at(0));
   node->y(inputs.at(1));
 
-  const auto *options = op.builtin_options.AsAddOptions();
-  node->fusedActivationFunction(luci_actfunc(options->fused_activation_function));
+  auto const options = op->builtin_options_as_AddOptions();
+  node->fusedActivationFunction(luci_actfunc(options->fused_activation_function()));
 
   return node;
 }

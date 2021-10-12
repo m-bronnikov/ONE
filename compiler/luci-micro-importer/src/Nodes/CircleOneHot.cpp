@@ -30,15 +30,15 @@ bool CircleOneHotGraphBuilder::validate(const ValidateArgs &args) const
   if (!GraphBuilder::validate(args, 4))
     return false;
 
-  const auto &inputs = args.op.inputs;
-  const auto *options = args.op.builtin_options.AsOneHotOptions();
+  const auto &inputs = *(args.op->inputs());
+  const auto *options = args.op->builtin_options_as_OneHotOptions();
   const auto &tensors = args.reader.tensors();
-  const auto &indices = tensors.at(inputs.at(0));
-  const auto &depth = tensors.at(inputs.at(1));
-  const auto &on_value = tensors.at(inputs.at(2));
-  const auto &off_value = tensors.at(inputs.at(3));
+  const auto &indices = tensors.at(inputs[0]);
+  const auto &depth = tensors.at(inputs[1]);
+  const auto &on_value = tensors.at(inputs[2]);
+  const auto &off_value = tensors.at(inputs[3]);
 
-  if (options->axis < -1 || options->axis > static_cast<int32_t>(indices->shape.size()))
+  if (options->axis() < -1 || options->axis() > static_cast<int32_t>(indices->shape.size()))
     return false;
   if (depth->shape.size() != 0)
     return false;
@@ -52,7 +52,7 @@ bool CircleOneHotGraphBuilder::validate(const ValidateArgs &args) const
   return true;
 }
 
-CircleNode *CircleOneHotGraphBuilder::build_node(const circle::OperatorT &op,
+CircleNode *CircleOneHotGraphBuilder::build_node(const circle::Operator *op,
                                                  const std::vector<CircleNode *> &inputs,
                                                  loco::Graph *graph) const
 {
@@ -63,8 +63,8 @@ CircleNode *CircleOneHotGraphBuilder::build_node(const circle::OperatorT &op,
   node->on_value(inputs.at(2));
   node->off_value(inputs.at(3));
 
-  const auto *options = op.builtin_options.AsOneHotOptions();
-  node->axis(options->axis);
+  const auto *options = op->builtin_options_as_OneHotOptions();
+  node->axis(options->axis());
 
   return node;
 }

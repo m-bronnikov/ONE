@@ -28,11 +28,11 @@ bool CircleEluGraphBuilder::validate(const ValidateArgs &args) const
   if (!GraphBuilder::validate(args, 1))
     return false;
 
-  const auto &inputs = args.op.inputs;
-  const auto &outputs = args.op.outputs;
+  const auto &inputs = *(args.op->inputs());
+  auto const &outputs = *(args.op->outputs());
 
   const auto &tensors = args.reader.tensors();
-  const auto &tensor = tensors.at(inputs.at(0));
+  const auto &tensor = tensors.at(inputs[0]);
 
   switch (tensor->type)
   {
@@ -54,7 +54,7 @@ bool CircleEluGraphBuilder::validate(const ValidateArgs &args) const
   return true;
 }
 
-CircleNode *CircleEluGraphBuilder::build_node(const circle::OperatorT &,
+CircleNode *CircleEluGraphBuilder::build_node(const circle::Operator *,
                                               const std::vector<CircleNode *> &inputs,
                                               loco::Graph *graph) const
 {

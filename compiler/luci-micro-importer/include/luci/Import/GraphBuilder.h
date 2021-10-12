@@ -36,13 +36,13 @@ public:
   // common validate method to check number of inputs and single output
   bool validate(const ValidateArgs &args, size_t input_cnt) const
   {
-    return (args.op.inputs.size() == input_cnt && args.op.outputs.size() == 1);
+    return (args.op->inputs()->size() == input_cnt && args.op->outputs()->size() == 1);
   }
 
-  CircleNode *build(const circle::OperatorT &op, GraphBuilderContext *context) const final;
+  CircleNode *build(const circle::Operator *op, GraphBuilderContext *context) const final;
 
 private:
-  virtual CircleNode *build_node(const circle::OperatorT &op,
+  virtual CircleNode *build_node(const circle::Operator *op,
                                  const std::vector<CircleNode *> &inputs,
                                  loco::Graph *graph) const = 0;
 };

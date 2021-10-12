@@ -34,15 +34,15 @@ bool CircleUnpackGraphBuilder::validate(const ValidateArgs &args) const
 
   auto settings = luci::UserSettings::settings();
 
-  const auto &inputs = args.op.inputs;
-  const auto &outputs = args.op.outputs;
-  const auto *options = args.op.builtin_options.AsUnpackOptions();
+  const auto &inputs = *(args.op->inputs());
+  const auto &outputs = *(args.op->outputs());
+  const auto *options = args.op->builtin_options_as_UnpackOptions();
 
   if (inputs.size() != 1)
     return false;
 
   // NOTE real models may have mismatch
-  if (static_cast<int32_t>(outputs.size()) != options->num)
+  if (static_cast<int32_t>(outputs.size()) != options->num())
   {
     if (settings->get(luci::UserSettings::Key::DisableValidation))
     {
@@ -55,17 +55,17 @@ bool CircleUnpackGraphBuilder::validate(const ValidateArgs &args) const
       return false;
   }
 
-  if (options->num < 0)
+  if (options->num() < 0)
     return false;
 
   const auto &tensors = args.reader.tensors();
-  const auto &tensor = tensors.at(inputs.at(0));
+  const auto &tensor = tensors.at(inputs[0]);
   const auto &shape = tensor->shape;
   auto shape_size = static_cast<int32_t>(shape.size());
   if (shape_size > 0)
   {
     // NOTE for unknown shape, shape_size is 0
-    if (options->axis < -shape_size || options->axis >= shape_size)
+    if (options->axis() < -shape_size || options->axis() >= shape_size)
       return false;
   }
 
@@ -94,9 +94,9 @@ CircleNode *CircleUnpackGraphBuilder::build_node(const BuildNodeArgs &bna) const
 
   node->value(bna.input_nodes[0]);
 
-  const auto *options = bna.op.builtin_options.AsUnpackOptions();
-  node->num(options->num);
-  node->axis(options->axis);
+  const auto *options = bna.op->builtin_options_as_UnpackOptions();
+  node->num(options->num());
+  node->axis(options->axis());
 
   return node;
 }

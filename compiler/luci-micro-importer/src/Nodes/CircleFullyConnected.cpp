@@ -30,7 +30,7 @@ bool CircleFullyConnectedGraphBuilder::validate(const ValidateArgs &args) const
   return GraphBuilder::validate(args, 3);
 }
 
-CircleNode *CircleFullyConnectedGraphBuilder::build_node(const circle::OperatorT &op,
+CircleNode *CircleFullyConnectedGraphBuilder::build_node(const circle::Operator *op,
                                                          const std::vector<CircleNode *> &inputs,
                                                          loco::Graph *graph) const
 {
@@ -39,9 +39,9 @@ CircleNode *CircleFullyConnectedGraphBuilder::build_node(const circle::OperatorT
   node->weights(inputs.at(1));
   node->bias(inputs.at(2)); // bias is optional
 
-  const auto *options = op.builtin_options.AsFullyConnectedOptions();
-  node->fusedActivationFunction(luci_actfunc(options->fused_activation_function));
-  node->weights_format(luci_weights_format(options->weights_format));
+  const auto *options = op->builtin_options_as_FullyConnectedOptions();
+  node->fusedActivationFunction(luci_actfunc(options->fused_activation_function()));
+  node->weights_format(luci_weights_format(options->weights_format()));
 
   return node;
 }

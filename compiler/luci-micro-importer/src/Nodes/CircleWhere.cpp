@@ -28,10 +28,10 @@ bool CircleWhereGraphBuilder::validate(const ValidateArgs &args) const
   if (!GraphBuilder::validate(args, 1))
     return false;
 
-  const auto &inputs = args.op.inputs;
-  const auto &outputs = args.op.outputs;
+  const auto &inputs = *(args.op->inputs());
+  const auto &outputs = *(args.op->outputs());
   const auto &tensors = args.reader.tensors();
-  const auto &tensor_condition = tensors.at(inputs.at(0));
+  const auto &tensor_condition = tensors.at(inputs[0]);
   const auto &tensor_out = tensors.at(outputs[0]);
 
   if (tensor_condition->type != circle::TensorType_BOOL)
@@ -43,7 +43,7 @@ bool CircleWhereGraphBuilder::validate(const ValidateArgs &args) const
   return true;
 }
 
-CircleNode *CircleWhereGraphBuilder::build_node(const circle::OperatorT &,
+CircleNode *CircleWhereGraphBuilder::build_node(const circle::Operator *,
                                                 const std::vector<CircleNode *> &inputs,
                                                 loco::Graph *graph) const
 {

@@ -49,7 +49,7 @@ void convert_graph(const luci::GraphBuilderSource &source, luci::CircleReader &r
 
   luci::GraphBuilderContext gb_context(graph, &reader, nodefinder.get(), tensoroutputs.get());
 
-  const auto &operators = reader.operators();
+  const auto &operators = *(reader.native_operators());
   const auto &tensors = reader.tensors();
   auto tensors_ptr = reader.native_tensors();
   assert(tensors_ptr != nullptr);
@@ -59,8 +59,8 @@ void convert_graph(const luci::GraphBuilderSource &source, luci::CircleReader &r
   // if this is set, we should not create a CircleConst for this tensor
   for (uint32_t i = 0; i < operators.size(); ++i)
   {
-    const circle::OperatorT &op = *operators[i];
-    const auto &outputs = op.outputs;
+    auto const op = operators[i];
+    auto const &outputs = *(op->outputs());
 
     for (uint32_t j = 0; j < outputs.size(); ++j)
     {
@@ -132,7 +132,7 @@ void convert_graph(const luci::GraphBuilderSource &source, luci::CircleReader &r
   auto origin_table = circle_metadata->origin_table();
   for (uint32_t i = 0; i < operators.size(); ++i)
   {
-    const circle::OperatorT &op = *operators[i];
+    auto const op = operators[i];
     circle::BuiltinOperator builtincode = reader.builtin_code(op);
 
     if (const auto *builder = source.lookup(builtincode))

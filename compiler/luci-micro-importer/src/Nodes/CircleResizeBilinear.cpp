@@ -26,7 +26,7 @@ bool CircleResizeBilinearGraphBuilder::validate(const ValidateArgs &args) const
   return GraphBuilder::validate(args, 2);
 }
 
-CircleNode *CircleResizeBilinearGraphBuilder::build_node(const circle::OperatorT &op,
+CircleNode *CircleResizeBilinearGraphBuilder::build_node(const circle::Operator *op,
                                                          const std::vector<CircleNode *> &inputs,
                                                          loco::Graph *graph) const
 {
@@ -34,9 +34,9 @@ CircleNode *CircleResizeBilinearGraphBuilder::build_node(const circle::OperatorT
   node->input(inputs.at(0));
   node->size(inputs.at(1));
 
-  const auto *options = op.builtin_options.AsResizeBilinearOptions();
-  node->align_corners(options->align_corners);
-  node->half_pixel_centers(options->half_pixel_centers);
+  const auto *options = op->builtin_options_as_ResizeBilinearOptions();
+  node->align_corners(options->align_corners());
+  node->half_pixel_centers(options->half_pixel_centers());
 
   return node;
 }

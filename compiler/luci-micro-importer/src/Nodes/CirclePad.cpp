@@ -29,7 +29,7 @@ bool CirclePadGraphBuilder::validate(const ValidateArgs &args) const
   return GraphBuilder::validate(args, 2);
 }
 
-CircleNode *CirclePadGraphBuilder::build_node(const circle::OperatorT &op,
+CircleNode *CirclePadGraphBuilder::build_node(const circle::Operator *op,
                                               const std::vector<CircleNode *> &inputs,
                                               loco::Graph *graph) const
 {
@@ -37,7 +37,7 @@ CircleNode *CirclePadGraphBuilder::build_node(const circle::OperatorT &op,
   node->input(inputs.at(0));
   node->paddings(inputs.at(1));
 
-  const auto *options = op.builtin_options.AsPadOptions();
+  const auto *options = op->builtin_options_as_PadOptions();
   (void)options; // There are no options.
 
   return node;

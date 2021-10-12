@@ -26,7 +26,7 @@ bool CircleMulGraphBuilder::validate(const ValidateArgs &args) const
   return GraphBuilder::validate(args, 2);
 }
 
-CircleNode *CircleMulGraphBuilder::build_node(const circle::OperatorT &op,
+CircleNode *CircleMulGraphBuilder::build_node(const circle::Operator *op,
                                               const std::vector<CircleNode *> &inputs,
                                               loco::Graph *graph) const
 {
@@ -34,8 +34,8 @@ CircleNode *CircleMulGraphBuilder::build_node(const circle::OperatorT &op,
   node->x(inputs.at(0));
   node->y(inputs.at(1));
 
-  const auto *options = op.builtin_options.AsMulOptions();
-  node->fusedActivationFunction(luci_actfunc(options->fused_activation_function));
+  const auto *options = op->builtin_options_as_MulOptions();
+  node->fusedActivationFunction(luci_actfunc(options->fused_activation_function()));
 
   return node;
 }

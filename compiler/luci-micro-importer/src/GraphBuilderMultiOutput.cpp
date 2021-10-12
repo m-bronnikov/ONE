@@ -21,23 +21,24 @@
 namespace luci
 {
 
-CircleNode *GraphBuilderMultiOutput::build(const circle::OperatorT &op,
+CircleNode *GraphBuilderMultiOutput::build(const circle::Operator *op,
                                            GraphBuilderContext *context) const
 {
   LOGGER(l);
 
   assert(context != nullptr);
 
-  const std::vector<int32_t> &inputs = op.inputs;
-  const std::vector<int32_t> &outputs = op.outputs;
+  auto const inputs = op->inputs();
+  auto const outputs = op->outputs();
   const auto &tensors = context->reader()->tensors();
   const auto &opcodes = context->reader()->opcodes();
   auto tensors_ptr = context->reader()->native_tensors();
   assert(tensors_ptr != nullptr);
 
   std::vector<CircleNode *> input_nodes;
-  for (const int32_t input_tensor_index : inputs)
+  for (int32_t i = 0; i < inputs->size(); ++i)
   {
+    auto const input_tensor_index = inputs->Get(i);
     if (input_tensor_index >= 0)
     {
       auto input = context->nodefinder()->node(input_tensor_index);
@@ -59,17 +60,17 @@ CircleNode *GraphBuilderMultiOutput::build(const circle::OperatorT &op,
   BuildNodeArgs bna(op, context, input_nodes);
   auto *node = build_node(bna);
 
-  uint32_t output_count = outputs.size();
+  uint32_t output_count = outputs->size();
   // NOTE CustomOp inherits GraphBuilderMultiOutput and can have 0 output
   if (output_count > 0)
   {
     // Let's use attributes from output 0 for this node
-    const circle::TensorT &output_tensor = *tensors[outputs[0]];
+    const circle::TensorT &output_tensor = *tensors[outputs->Get(0)];
     node->name(tensor_name(output_tensor));
     node->dtype(luci_datatype(output_tensor.type));
 
     // mark operator version
-    node->op_version(opcodes[op.opcode_index].get()->version);
+    node->op_version(opcodes[op->opcode_index()].get()->version);
 
     // NOTE We don't set quantization for multiple output nodes but to virtual outputs
   }
@@ -77,7 +78,8 @@ CircleNode *GraphBuilderMultiOutput::build(const circle::OperatorT &op,
   // Create virtual outputs of Virtual Output node(s)
   for (uint32_t n = 0; n < output_count; ++n)
   {
-    const circle::TensorT &output_tensor = *tensors[outputs[n]];
+    auto const output_tensor_index = outputs->Get(n);
+    const circle::TensorT &output_tensor = *tensors[output_tensor_index];
 
     BuildOutArgs boa(node, n);
     auto *nodeout = build_out(boa);
@@ -85,12 +87,12 @@ CircleNode *GraphBuilderMultiOutput::build(const circle::OperatorT &op,
     copy_tensor_attributes(output_tensor, nodeout);
     // NOTE name of CxxxOut nodes may have same name
     // mark shape_status
-    if (tensors_ptr->Get(outputs[n])->shape() == nullptr)
+    if (tensors_ptr->Get(output_tensor_index)->shape() == nullptr)
       nodeout->shape_status(ShapeStatus::NOSHAPE);
     else
       nodeout->shape_status(ShapeStatus::VALID);
 
-    context->nodefinder()->enroll(outputs[n], nodeout);
+    context->nodefinder()->enroll(output_tensor_index, nodeout);
   }
 
   return node;
