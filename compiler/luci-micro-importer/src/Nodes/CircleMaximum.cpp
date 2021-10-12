@@ -30,7 +30,7 @@ bool CircleMaximumGraphBuilder::validate(const ValidateArgs &args) const
   return validate_minmax(args);
 }
 
-CircleNode *CircleMaximumGraphBuilder::build_node(const circle::OperatorT &,
+CircleNode *CircleMaximumGraphBuilder::build_node(const circle::Operator *,
                                                   const std::vector<CircleNode *> &inputs,
                                                   loco::Graph *graph) const
 {

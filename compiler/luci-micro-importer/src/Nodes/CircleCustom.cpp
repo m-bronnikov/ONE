@@ -29,8 +29,8 @@ bool CircleCustomGraphBuilder::validate(const ValidateArgs &) const
 
 CircleNode *CircleCustomGraphBuilder::build_node(const BuildNodeArgs &bna) const
 {
-  uint32_t input_count = bna.op.inputs.size();
-  uint32_t output_count = bna.op.outputs.size();
+  uint32_t input_count = wrap(bna.op->inputs()).size();
+  uint32_t output_count = wrap(bna.op->outputs()).size();
 
   auto *node = bna.context->graph()->nodes()->create<CircleCustom>(input_count, output_count);
 
@@ -40,11 +40,11 @@ CircleNode *CircleCustomGraphBuilder::build_node(const BuildNodeArgs &bna) const
   }
 
   const auto &opcodes = bna.context->reader()->opcodes();
-  const uint32_t opcode_index = bna.op.opcode_index;
+  const uint32_t opcode_index = bna.op->opcode_index();
   const circle::OperatorCodeT &opcode = *opcodes[opcode_index];
 
-  node->custom_options(
-    std::vector<uint8_t>{bna.op.custom_options.begin(), bna.op.custom_options.end()});
+  node->custom_options(std::vector<uint8_t>{wrap(bna.op->custom_options()).begin(),
+                                            wrap(bna.op->custom_options()).end()});
   node->custom_code(opcode.custom_code);
 
   // NOTE Operator version of custom is always 1

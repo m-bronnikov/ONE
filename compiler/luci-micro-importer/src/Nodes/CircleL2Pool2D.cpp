@@ -29,14 +29,14 @@ bool CircleL2Pool2DGraphBuilder::validate(const ValidateArgs &args) const
   return GraphBuilder::validate(args, 1);
 }
 
-CircleNode *CircleL2Pool2DGraphBuilder::build_node(const circle::OperatorT &op,
+CircleNode *CircleL2Pool2DGraphBuilder::build_node(const circle::Operator *op,
                                                    const std::vector<CircleNode *> &inputs,
                                                    loco::Graph *graph) const
 {
   auto *node = graph->nodes()->create<CircleL2Pool2D>();
   node->value(inputs.at(0));
 
-  const auto *options = op.builtin_options.AsPool2DOptions();
+  const auto *options = op->builtin_options_as_Pool2DOptions()->UnPack();
   node->padding(luci_padding(options->padding));
   node->stride()->w(options->stride_w);
   node->stride()->h(options->stride_h);

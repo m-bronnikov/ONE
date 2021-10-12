@@ -27,12 +27,12 @@ namespace luci
 
 bool CircleIfGraphBuilder::validate(const ValidateArgs &args) const
 {
-  const auto &inputs = args.op.inputs;
-  const auto *options = args.op.builtin_options.AsIfOptions();
+  const auto &inputs = wrap(args.op->inputs());
+  const auto *options = args.op->builtin_options_as_IfOptions()->UnPack();
 
   if (inputs.size() < 2) // cond + input
     return false;
-  if (args.op.outputs.size() < 1) // output
+  if (wrap(args.op->outputs()).size() < 1) // output
     return false;
 
   auto num_graphs = static_cast<int32_t>(args.reader.num_subgraph());
@@ -72,8 +72,8 @@ bool CircleIfGraphBuilder::validate(const ValidateArgs &args) const
 
 CircleNode *CircleIfGraphBuilder::build_node(const BuildNodeArgs &bna) const
 {
-  uint32_t input_count = bna.op.inputs.size() - 1;
-  uint32_t output_count = bna.op.outputs.size();
+  uint32_t input_count = wrap(bna.op->inputs()).size() - 1;
+  uint32_t output_count = wrap(bna.op->outputs()).size();
 
   auto *node = bna.context->graph()->nodes()->create<CircleIf>(input_count, output_count);
 
@@ -83,7 +83,7 @@ CircleNode *CircleIfGraphBuilder::build_node(const BuildNodeArgs &bna) const
     node->input(idx, bna.input_nodes[idx + 1]);
   }
 
-  const auto *options = bna.op.builtin_options.AsIfOptions();
+  const auto *options = bna.op->builtin_options_as_IfOptions()->UnPack();
   node->then_branch(options->then_subgraph_index);
   node->else_branch(options->else_subgraph_index);
 

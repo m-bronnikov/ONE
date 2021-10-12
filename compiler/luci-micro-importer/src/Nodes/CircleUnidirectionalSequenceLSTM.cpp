@@ -29,7 +29,7 @@ bool CircleUnidirectionalSequenceLSTMGraphBuilder::validate(const ValidateArgs &
 }
 
 CircleNode *CircleUnidirectionalSequenceLSTMGraphBuilder::build_node(
-  const circle::OperatorT &op, const std::vector<CircleNode *> &inputs, loco::Graph *graph) const
+  const circle::Operator *op, const std::vector<CircleNode *> &inputs, loco::Graph *graph) const
 {
   auto *node = graph->nodes()->create<CircleUnidirectionalSequenceLSTM>();
   node->input(inputs.at(0));
@@ -57,7 +57,7 @@ CircleNode *CircleUnidirectionalSequenceLSTMGraphBuilder::build_node(
   node->cell_layer_norm_coefficients(inputs.at(22));   // Optional
   node->output_layer_norm_coefficients(inputs.at(23)); // Optional
 
-  const auto *options = op.builtin_options.AsUnidirectionalSequenceLSTMOptions();
+  const auto *options = op->builtin_options_as_UnidirectionalSequenceLSTMOptions()->UnPack();
   node->fusedActivationFunction(luci_actfunc(options->fused_activation_function));
   node->cell_clip(options->cell_clip);
   node->proj_clip(options->proj_clip);

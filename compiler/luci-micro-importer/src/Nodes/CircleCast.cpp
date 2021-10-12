@@ -35,11 +35,11 @@ bool CircleCastGraphBuilder::validate(const ValidateArgs &args) const
 
   auto settings = luci::UserSettings::settings();
 
-  const auto &inputs = args.op.inputs;
-  const auto &outputs = args.op.outputs;
+  const auto &inputs = wrap(args.op->inputs());
+  const auto &outputs = wrap(args.op->outputs());
 
   // NOTE real models do have type mismatch
-  const auto *options = args.op.builtin_options.AsCastOptions();
+  const auto *options = args.op->builtin_options_as_CastOptions()->UnPack();
   if (options != nullptr)
   {
     const auto &tensors = args.reader.tensors();
@@ -71,14 +71,14 @@ bool CircleCastGraphBuilder::validate(const ValidateArgs &args) const
   return true;
 }
 
-CircleNode *CircleCastGraphBuilder::build_node(const circle::OperatorT &op,
+CircleNode *CircleCastGraphBuilder::build_node(const circle::Operator *op,
                                                const std::vector<CircleNode *> &inputs,
                                                loco::Graph *graph) const
 {
   auto *node = graph->nodes()->create<CircleCast>();
   node->x(inputs.at(0));
 
-  const auto *options = op.builtin_options.AsCastOptions();
+  const auto *options = op->builtin_options_as_CastOptions()->UnPack();
   if (options != nullptr)
   {
     node->in_data_type(luci_datatype(options->in_data_type));

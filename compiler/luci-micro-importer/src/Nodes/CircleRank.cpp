@@ -27,7 +27,7 @@ bool CircleRankGraphBuilder::validate(const ValidateArgs &args) const
   return GraphBuilder::validate(args, 1);
 }
 
-CircleNode *CircleRankGraphBuilder::build_node(const circle::OperatorT &,
+CircleNode *CircleRankGraphBuilder::build_node(const circle::Operator *,
                                                const std::vector<CircleNode *> &inputs,
                                                loco::Graph *graph) const
 {

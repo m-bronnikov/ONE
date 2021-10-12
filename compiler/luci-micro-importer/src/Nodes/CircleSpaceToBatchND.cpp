@@ -30,7 +30,7 @@ bool CircleSpaceToBatchNDGraphBuilder::validate(const ValidateArgs &args) const
   return validate_batch_space_nd(args);
 }
 
-CircleNode *CircleSpaceToBatchNDGraphBuilder::build_node(const circle::OperatorT &,
+CircleNode *CircleSpaceToBatchNDGraphBuilder::build_node(const circle::Operator *,
                                                          const std::vector<CircleNode *> &inputs,
                                                          loco::Graph *graph) const
 {

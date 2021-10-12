@@ -28,14 +28,14 @@ bool CircleLeakyReluGraphBuilder::validate(const ValidateArgs &args) const
   return GraphBuilder::validate(args, 1);
 }
 
-CircleNode *CircleLeakyReluGraphBuilder::build_node(const circle::OperatorT &op,
+CircleNode *CircleLeakyReluGraphBuilder::build_node(const circle::Operator *op,
                                                     const std::vector<CircleNode *> &inputs,
                                                     loco::Graph *graph) const
 {
   auto *node = graph->nodes()->create<CircleLeakyRelu>();
   node->features(inputs.at(0));
 
-  const auto *options = op.builtin_options.AsLeakyReluOptions();
+  const auto *options = op->builtin_options_as_LeakyReluOptions()->UnPack();
   node->alpha(options->alpha);
 
   return node;

@@ -27,7 +27,7 @@ class CircleDivGraphBuilder : public GraphBuilder
   bool validate(const ValidateArgs &args) const final;
 
 private:
-  CircleNode *build_node(const circle::OperatorT &op, const std::vector<CircleNode *> &inputs,
+  CircleNode *build_node(const circle::Operator *op, const std::vector<CircleNode *> &inputs,
                          loco::Graph *graph) const override;
 };
 

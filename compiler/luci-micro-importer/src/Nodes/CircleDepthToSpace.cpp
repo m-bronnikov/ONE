@@ -30,10 +30,10 @@ bool CircleDepthToSpaceGraphBuilder::validate(const ValidateArgs &args) const
   if (!GraphBuilder::validate(args, 1))
     return false;
 
-  const auto &inputs = args.op.inputs;
-  const auto &outputs = args.op.outputs;
+  const auto &inputs = wrap(args.op->inputs());
+  const auto &outputs = wrap(args.op->outputs());
 
-  const auto *options = args.op.builtin_options.AsDepthToSpaceOptions();
+  const auto *options = args.op->builtin_options_as_DepthToSpaceOptions()->UnPack();
   const auto &tensors = args.reader.tensors();
 
   if (tensors[outputs[0]]->type != tensors[inputs.at(0)]->type)
@@ -47,14 +47,14 @@ bool CircleDepthToSpaceGraphBuilder::validate(const ValidateArgs &args) const
   return true;
 }
 
-CircleNode *CircleDepthToSpaceGraphBuilder::build_node(const circle::OperatorT &op,
+CircleNode *CircleDepthToSpaceGraphBuilder::build_node(const circle::Operator *op,
                                                        const std::vector<CircleNode *> &inputs,
                                                        loco::Graph *graph) const
 {
   auto *node = graph->nodes()->create<CircleDepthToSpace>();
   node->input(inputs.at(0));
 
-  const auto *options = op.builtin_options.AsDepthToSpaceOptions();
+  const auto *options = op->builtin_options_as_DepthToSpaceOptions()->UnPack();
   node->block_size(options->block_size);
 
   return node;

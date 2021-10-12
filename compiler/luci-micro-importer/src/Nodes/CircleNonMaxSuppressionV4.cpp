@@ -27,8 +27,8 @@ namespace luci
 
 bool CircleNonMaxSuppressionV4GraphBuilder::validate(const ValidateArgs &args) const
 {
-  const auto &inputs = args.op.inputs;
-  const auto &outputs = args.op.outputs;
+  const auto &inputs = wrap(args.op->inputs());
+  const auto &outputs = wrap(args.op->outputs());
 
   if (inputs.size() != 5)
     return false;

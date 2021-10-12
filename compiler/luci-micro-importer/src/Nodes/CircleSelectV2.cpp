@@ -28,7 +28,7 @@ bool CircleSelectV2GraphBuilder::validate(const ValidateArgs &args) const
   if (!GraphBuilder::validate(args, 3))
     return false;
 
-  const auto &inputs = args.op.inputs;
+  const auto &inputs = wrap(args.op->inputs());
   const auto &tensors = args.reader.tensors();
   const auto &condition = tensors.at(inputs.at(0));
   if (condition->type != circle::TensorType_BOOL)
@@ -42,7 +42,7 @@ bool CircleSelectV2GraphBuilder::validate(const ValidateArgs &args) const
   return true;
 }
 
-CircleNode *CircleSelectV2GraphBuilder::build_node(const circle::OperatorT &,
+CircleNode *CircleSelectV2GraphBuilder::build_node(const circle::Operator *,
                                                    const std::vector<CircleNode *> &inputs,
                                                    loco::Graph *graph) const
 {

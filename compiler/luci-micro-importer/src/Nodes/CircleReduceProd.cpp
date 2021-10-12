@@ -26,7 +26,7 @@ bool CircleReduceProdGraphBuilder::validate(const ValidateArgs &args) const
   if (!GraphBuilder::validate(args, 2))
     return false;
 
-  const auto &inputs = args.op.inputs;
+  const auto &inputs = wrap(args.op->inputs());
   const auto &tensors = args.reader.tensors();
   const auto &tensor_1 = tensors.at(inputs.at(1));
 
@@ -45,7 +45,7 @@ bool CircleReduceProdGraphBuilder::validate(const ValidateArgs &args) const
   return true;
 }
 
-CircleNode *CircleReduceProdGraphBuilder::build_node(const circle::OperatorT &op,
+CircleNode *CircleReduceProdGraphBuilder::build_node(const circle::Operator *op,
                                                      const std::vector<CircleNode *> &inputs,
                                                      loco::Graph *graph) const
 {
@@ -53,7 +53,7 @@ CircleNode *CircleReduceProdGraphBuilder::build_node(const circle::OperatorT &op
   node->input(inputs.at(0));
   node->reduction_indices(inputs.at(1));
 
-  const auto *options = op.builtin_options.AsReducerOptions();
+  const auto *options = op->builtin_options_as_ReducerOptions()->UnPack();
   node->keep_dims(options->keep_dims);
 
   return node;

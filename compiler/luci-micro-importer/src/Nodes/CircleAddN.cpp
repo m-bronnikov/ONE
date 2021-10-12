@@ -25,16 +25,16 @@ namespace luci
 
 bool CircleAddNGraphBuilder::validate(const ValidateArgs &args) const
 {
-  if (args.op.inputs.size() < 1)
+  if (wrap(args.op->inputs()).size() < 1)
     return false;
 
-  if (args.op.outputs.size() != 1)
+  if (wrap(args.op->outputs()).size() != 1)
     return false;
 
   return true;
 }
 
-CircleNode *CircleAddNGraphBuilder::build_node(const circle::OperatorT &,
+CircleNode *CircleAddNGraphBuilder::build_node(const circle::Operator *,
                                                const std::vector<CircleNode *> &inputs,
                                                loco::Graph *graph) const
 {

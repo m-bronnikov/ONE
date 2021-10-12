@@ -34,9 +34,9 @@ bool CircleUnpackGraphBuilder::validate(const ValidateArgs &args) const
 
   auto settings = luci::UserSettings::settings();
 
-  const auto &inputs = args.op.inputs;
-  const auto &outputs = args.op.outputs;
-  const auto *options = args.op.builtin_options.AsUnpackOptions();
+  const auto &inputs = wrap(args.op->inputs());
+  const auto &outputs = wrap(args.op->outputs());
+  const auto *options = args.op->builtin_options_as_UnpackOptions()->UnPack();
 
   if (inputs.size() != 1)
     return false;
@@ -94,7 +94,7 @@ CircleNode *CircleUnpackGraphBuilder::build_node(const BuildNodeArgs &bna) const
 
   node->value(bna.input_nodes[0]);
 
-  const auto *options = bna.op.builtin_options.AsUnpackOptions();
+  const auto *options = bna.op->builtin_options_as_UnpackOptions()->UnPack();
   node->num(options->num);
   node->axis(options->axis);
 

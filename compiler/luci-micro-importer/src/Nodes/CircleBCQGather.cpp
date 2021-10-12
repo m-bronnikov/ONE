@@ -28,7 +28,7 @@ bool CircleBCQGatherGraphBuilder::validate(const ValidateArgs &args) const
   return GraphBuilder::validate(args, 4);
 }
 
-CircleNode *CircleBCQGatherGraphBuilder::build_node(const circle::OperatorT &op,
+CircleNode *CircleBCQGatherGraphBuilder::build_node(const circle::Operator *op,
                                                     const std::vector<CircleNode *> &inputs,
                                                     loco::Graph *graph) const
 {
@@ -39,7 +39,7 @@ CircleNode *CircleBCQGatherGraphBuilder::build_node(const circle::OperatorT &op,
   node->indices(inputs.at(2));
   node->input_clusters(inputs.at(3));
 
-  const auto *options = op.builtin_options.AsBCQGatherOptions();
+  const auto *options = op->builtin_options_as_BCQGatherOptions()->UnPack();
   node->input_hidden_size(options->input_hidden_size);
   node->axis(options->axis);
 

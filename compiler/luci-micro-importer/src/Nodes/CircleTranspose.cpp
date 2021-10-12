@@ -28,7 +28,7 @@ bool CircleTransposeGraphBuilder::validate(const ValidateArgs &args) const
   return GraphBuilder::validate(args, 2);
 }
 
-CircleNode *CircleTransposeGraphBuilder::build_node(const circle::OperatorT &op,
+CircleNode *CircleTransposeGraphBuilder::build_node(const circle::Operator *op,
                                                     const std::vector<CircleNode *> &inputs,
                                                     loco::Graph *graph) const
 {
@@ -36,7 +36,7 @@ CircleNode *CircleTransposeGraphBuilder::build_node(const circle::OperatorT &op,
   node->a(inputs.at(0));
   node->perm(inputs.at(1));
 
-  const auto *options = op.builtin_options.AsTransposeOptions();
+  const auto *options = op->builtin_options_as_TransposeOptions()->UnPack();
   (void)options;
 
   return node;

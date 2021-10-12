@@ -26,7 +26,7 @@ bool CircleBatchMatMulGraphBuilder::validate(const ValidateArgs &args) const
   return GraphBuilder::validate(args, 2);
 }
 
-CircleNode *CircleBatchMatMulGraphBuilder::build_node(const circle::OperatorT &op,
+CircleNode *CircleBatchMatMulGraphBuilder::build_node(const circle::Operator *op,
                                                       const std::vector<CircleNode *> &inputs,
                                                       loco::Graph *graph) const
 {
@@ -34,7 +34,7 @@ CircleNode *CircleBatchMatMulGraphBuilder::build_node(const circle::OperatorT &o
   node->x(inputs.at(0));
   node->y(inputs.at(1));
 
-  const auto *options = op.builtin_options.AsBatchMatMulOptions();
+  const auto *options = op->builtin_options_as_BatchMatMulOptions()->UnPack();
   node->adj_x(options->adjoint_lhs);
   node->adj_y(options->adjoint_rhs);
 

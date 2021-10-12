@@ -24,16 +24,16 @@ namespace luci
 
 bool CircleReshapeGraphBuilder::validate(const ValidateArgs &args) const
 {
-  if (args.op.inputs.size() != 1 && args.op.inputs.size() != 2)
+  if (wrap(args.op->inputs()).size() != 1 && wrap(args.op->inputs()).size() != 2)
     return false;
 
-  if (args.op.outputs.size() != 1)
+  if (wrap(args.op->outputs()).size() != 1)
     return false;
 
   // for two inputs, check if type is S32
-  if (args.op.inputs.size() == 2)
+  if (wrap(args.op->inputs()).size() == 2)
   {
-    const auto &inputs = args.op.inputs;
+    const auto &inputs = wrap(args.op->inputs());
     const auto &tensors = args.reader.tensors();
     const auto &tensor_in = tensors.at(inputs.at(1));
 
@@ -70,7 +70,7 @@ static CircleNode *create_shape_node(const std::vector<int32_t> &shape, loco::Gr
   return shape_node;
 }
 
-CircleNode *CircleReshapeGraphBuilder::build_node(const circle::OperatorT &op,
+CircleNode *CircleReshapeGraphBuilder::build_node(const circle::Operator *op,
                                                   const std::vector<CircleNode *> &inputs,
                                                   loco::Graph *graph) const
 {
@@ -79,7 +79,7 @@ CircleNode *CircleReshapeGraphBuilder::build_node(const circle::OperatorT &op,
   auto *shape_node = (inputs.size() == 2) ? inputs.at(1) : nullptr;
   if (shape_node == nullptr)
   {
-    const auto *options = op.builtin_options.AsReshapeOptions();
+    const auto *options = op->builtin_options_as_ReshapeOptions()->UnPack();
     if (options != nullptr)
       shape_node = create_shape_node(options->new_shape, graph);
     else
@@ -95,7 +95,7 @@ CircleNode *CircleReshapeGraphBuilder::build_node(const circle::OperatorT &op,
   node->tensor(inputs.at(0));
   node->shape(shape_node);
 
-  const auto *options = op.builtin_options.AsReshapeOptions();
+  const auto *options = op->builtin_options_as_ReshapeOptions()->UnPack();
   if (options)
     setup_shape_attribute(options->new_shape, node);
 

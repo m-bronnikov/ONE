@@ -21,17 +21,17 @@
 namespace luci
 {
 
-CircleNode *GraphBuilderMultiOutput::build(const circle::OperatorT &op,
+CircleNode *GraphBuilderMultiOutput::build(const circle::Operator *op,
                                            GraphBuilderContext *context) const
 {
   LOGGER(l);
 
   assert(context != nullptr);
 
-  const std::vector<int32_t> &inputs = op.inputs;
-  const std::vector<int32_t> &outputs = op.outputs;
+  auto const inputs = wrap(op->inputs());
+  auto const outputs = wrap(op->outputs());
   const auto &tensors = context->reader()->tensors();
-  const auto &opcodes = context->reader()->opcodes();
+  const auto &opcodes = context->reader()->native_opcodes();
   auto const tensors_ptr = context->reader()->native_tensors();
   assert(not tensors_ptr.is_null());
 
@@ -69,7 +69,8 @@ CircleNode *GraphBuilderMultiOutput::build(const circle::OperatorT &op,
     node->dtype(luci_datatype(output_tensor.type));
 
     // mark operator version
-    node->op_version(opcodes[op.opcode_index].get()->version);
+    assert(opcodes[op->opcode_index()] != nullptr);
+    node->op_version(opcodes[op->opcode_index()]->version());
 
     // NOTE We don't set quantization for multiple output nodes but to virtual outputs
   }

@@ -28,8 +28,8 @@ bool CircleReverseSequenceGraphBuilder::validate(const ValidateArgs &args) const
   if (!GraphBuilder::validate(args, 2))
     return false;
 
-  const auto &inputs = args.op.inputs;
-  const auto &outputs = args.op.outputs;
+  const auto &inputs = wrap(args.op->inputs());
+  const auto &outputs = wrap(args.op->outputs());
   const auto &tensors = args.reader.tensors();
   const auto &tensor_in = tensors.at(inputs.at(0));
   const auto &tensor_lengths = tensors.at(inputs.at(1));
@@ -50,7 +50,7 @@ bool CircleReverseSequenceGraphBuilder::validate(const ValidateArgs &args) const
   return true;
 }
 
-CircleNode *CircleReverseSequenceGraphBuilder::build_node(const circle::OperatorT &op,
+CircleNode *CircleReverseSequenceGraphBuilder::build_node(const circle::Operator *op,
                                                           const std::vector<CircleNode *> &inputs,
                                                           loco::Graph *graph) const
 {
@@ -58,7 +58,7 @@ CircleNode *CircleReverseSequenceGraphBuilder::build_node(const circle::Operator
   node->input(inputs.at(0));
   node->seq_lengths(inputs.at(1));
 
-  const auto *options = op.builtin_options.AsReverseSequenceOptions();
+  const auto *options = op->builtin_options_as_ReverseSequenceOptions()->UnPack();
   node->seq_axis(options->seq_dim);
   node->batch_axis(options->batch_dim);
 

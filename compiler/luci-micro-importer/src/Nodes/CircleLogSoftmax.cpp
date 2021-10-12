@@ -29,7 +29,7 @@ bool CircleLogSoftmaxGraphBuilder::validate(const ValidateArgs &args) const
   return GraphBuilder::validate(args, 1);
 }
 
-CircleNode *CircleLogSoftmaxGraphBuilder::build_node(const circle::OperatorT &,
+CircleNode *CircleLogSoftmaxGraphBuilder::build_node(const circle::Operator *,
                                                      const std::vector<CircleNode *> &inputs,
                                                      loco::Graph *graph) const
 {

@@ -26,9 +26,9 @@ namespace luci
 
 bool CircleBidirectionalSequenceLSTMGraphBuilder::validate(const ValidateArgs &args) const
 {
-  if (args.op.inputs.size() != 48)
+  if (wrap(args.op->inputs()).size() != 48)
     return false;
-  if (args.op.outputs.size() != 2)
+  if (wrap(args.op->outputs()).size() != 2)
     return false;
 
   return true;
@@ -88,7 +88,7 @@ CircleNode *CircleBidirectionalSequenceLSTMGraphBuilder::build_node(const BuildN
   node->bw_auxillary_input_to_cell_weights(inputs.at(46));   // Optional
   node->bw_auxillary_input_to_output_weights(inputs.at(47)); // Optional
 
-  const auto *options = bna.op.builtin_options.AsBidirectionalSequenceLSTMOptions();
+  const auto *options = bna.op->builtin_options_as_BidirectionalSequenceLSTMOptions()->UnPack();
   node->fusedActivationFunction(luci_actfunc(options->fused_activation_function));
   node->cell_clip(options->cell_clip);
   node->proj_clip(options->proj_clip);

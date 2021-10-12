@@ -29,8 +29,8 @@ bool CircleGatherGraphBuilder::validate(const ValidateArgs &args) const
   if (!GraphBuilder::validate(args, 2))
     return false;
 
-  const auto &inputs = args.op.inputs;
-  const auto *options = args.op.builtin_options.AsGatherOptions();
+  const auto &inputs = wrap(args.op->inputs());
+  const auto *options = args.op->builtin_options_as_GatherOptions()->UnPack();
 
   int32_t axis = options->axis;
 
@@ -46,7 +46,7 @@ bool CircleGatherGraphBuilder::validate(const ValidateArgs &args) const
   return true;
 }
 
-CircleNode *CircleGatherGraphBuilder::build_node(const circle::OperatorT &op,
+CircleNode *CircleGatherGraphBuilder::build_node(const circle::Operator *op,
                                                  const std::vector<CircleNode *> &inputs,
                                                  loco::Graph *graph) const
 {
@@ -55,7 +55,7 @@ CircleNode *CircleGatherGraphBuilder::build_node(const circle::OperatorT &op,
   node->params(inputs.at(0));
   node->indices(inputs.at(1));
 
-  const auto *options = op.builtin_options.AsGatherOptions();
+  const auto *options = op->builtin_options_as_GatherOptions()->UnPack();
   node->axis(options->axis);
 
   return node;

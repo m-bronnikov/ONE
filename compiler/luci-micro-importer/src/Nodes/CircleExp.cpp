@@ -28,7 +28,7 @@ bool CircleExpGraphBuilder::validate(const ValidateArgs &args) const
   if (!GraphBuilder::validate(args, 1))
     return false;
 
-  const auto &inputs = args.op.inputs;
+  const auto &inputs = wrap(args.op->inputs());
   // input type check
   const auto &tensors = args.reader.tensors();
   const auto &tensor = tensors.at(inputs.at(0));
@@ -50,7 +50,7 @@ bool CircleExpGraphBuilder::validate(const ValidateArgs &args) const
   return true;
 }
 
-CircleNode *CircleExpGraphBuilder::build_node(const circle::OperatorT &,
+CircleNode *CircleExpGraphBuilder::build_node(const circle::Operator *,
                                               const std::vector<CircleNode *> &inputs,
                                               loco::Graph *graph) const
 {

@@ -28,8 +28,8 @@ bool CircleTileGraphBuilder::validate(const ValidateArgs &args) const
   if (!GraphBuilder::validate(args, 2))
     return false;
 
-  auto inputs = args.op.inputs;
-  auto outputs = args.op.outputs;
+  auto inputs = wrap(args.op->inputs());
+  auto outputs = wrap(args.op->outputs());
   // Multiples (inputs.at(1)) must be one of the following types
   // int32, int64
   const auto &tensors = args.reader.tensors();
@@ -50,7 +50,7 @@ bool CircleTileGraphBuilder::validate(const ValidateArgs &args) const
   return true;
 }
 
-CircleNode *CircleTileGraphBuilder::build_node(const circle::OperatorT &,
+CircleNode *CircleTileGraphBuilder::build_node(const circle::Operator *,
                                                const std::vector<CircleNode *> &inputs,
                                                loco::Graph *graph) const
 {

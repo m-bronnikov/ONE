@@ -30,12 +30,12 @@ bool CircleLocalResponseNormalizationGraphBuilder::validate(const ValidateArgs &
 }
 
 CircleNode *CircleLocalResponseNormalizationGraphBuilder::build_node(
-  const circle::OperatorT &op, const std::vector<CircleNode *> &inputs, loco::Graph *graph) const
+  const circle::Operator *op, const std::vector<CircleNode *> &inputs, loco::Graph *graph) const
 {
   auto *node = graph->nodes()->create<CircleLocalResponseNormalization>();
   node->input(inputs.at(0));
 
-  const auto *options = op.builtin_options.AsLocalResponseNormalizationOptions();
+  const auto *options = op->builtin_options_as_LocalResponseNormalizationOptions()->UnPack();
   node->radius(options->radius);
   node->bias(options->bias);
   node->alpha(options->alpha);

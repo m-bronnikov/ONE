@@ -28,7 +28,7 @@ bool CircleSparseToDenseGraphBuilder::validate(const ValidateArgs &args) const
   return GraphBuilder::validate(args, 4);
 }
 
-CircleNode *CircleSparseToDenseGraphBuilder::build_node(const circle::OperatorT &op,
+CircleNode *CircleSparseToDenseGraphBuilder::build_node(const circle::Operator *op,
                                                         const std::vector<CircleNode *> &inputs,
                                                         loco::Graph *graph) const
 {
@@ -38,7 +38,7 @@ CircleNode *CircleSparseToDenseGraphBuilder::build_node(const circle::OperatorT 
   node->values(inputs.at(2));
   node->default_value(inputs.at(3));
 
-  const auto *options = op.builtin_options.AsSparseToDenseOptions();
+  const auto *options = op->builtin_options_as_SparseToDenseOptions()->UnPack();
   if (options)
     node->validate_indices(options->validate_indices);
 

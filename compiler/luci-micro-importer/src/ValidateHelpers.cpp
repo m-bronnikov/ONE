@@ -21,7 +21,7 @@ namespace luci
 
 bool validate_batch_space_nd(const GraphBuilderBase::ValidateArgs &args)
 {
-  const auto &inputs = args.op.inputs;
+  const auto &inputs = wrap(args.op->inputs());
   if (inputs.size() != 3)
     return false;
 
@@ -59,8 +59,8 @@ bool validate_batch_space_nd(const GraphBuilderBase::ValidateArgs &args)
 
 bool validate_minmax(const GraphBuilderBase::ValidateArgs &args)
 {
-  const auto &inputs = args.op.inputs;
-  const auto &outputs = args.op.outputs;
+  const auto &inputs = wrap(args.op->inputs());
+  const auto &outputs = wrap(args.op->outputs());
 
   if (inputs.size() != 2)
     return false;
@@ -95,8 +95,8 @@ bool validate_minmax(const GraphBuilderBase::ValidateArgs &args)
 
 bool validate_reduce_minmax(const GraphBuilderBase::ValidateArgs &args)
 {
-  const auto &inputs = args.op.inputs;
-  const auto &outputs = args.op.outputs;
+  const auto &inputs = wrap(args.op->inputs());
+  const auto &outputs = wrap(args.op->outputs());
 
   if (inputs.size() != 2)
     return false;

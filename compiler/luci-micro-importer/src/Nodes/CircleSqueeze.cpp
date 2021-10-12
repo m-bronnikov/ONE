@@ -26,14 +26,14 @@ bool CircleSqueezeGraphBuilder::validate(const ValidateArgs &args) const
   return GraphBuilder::validate(args, 1);
 }
 
-CircleNode *CircleSqueezeGraphBuilder::build_node(const circle::OperatorT &op,
+CircleNode *CircleSqueezeGraphBuilder::build_node(const circle::Operator *op,
                                                   const std::vector<CircleNode *> &inputs,
                                                   loco::Graph *graph) const
 {
   auto *node = graph->nodes()->create<CircleSqueeze>();
   node->input(inputs.at(0));
 
-  const auto *options = op.builtin_options.AsSqueezeOptions();
+  const auto *options = op->builtin_options_as_SqueezeOptions()->UnPack();
   assert(options);
 
   node->squeeze_dims(options->squeeze_dims);

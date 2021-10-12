@@ -28,8 +28,8 @@ bool CircleFloorDivGraphBuilder::validate(const ValidateArgs &args) const
   if (!GraphBuilder::validate(args, 2))
     return false;
 
-  const auto &inputs = args.op.inputs;
-  const auto &outputs = args.op.outputs;
+  const auto &inputs = wrap(args.op->inputs());
+  const auto &outputs = wrap(args.op->outputs());
   const auto &tensors = args.reader.tensors();
   const auto &tensor_in_0 = tensors.at(inputs.at(0));
   const auto &tensor_in_1 = tensors.at(inputs.at(1));
@@ -46,7 +46,7 @@ bool CircleFloorDivGraphBuilder::validate(const ValidateArgs &args) const
   return true;
 }
 
-CircleNode *CircleFloorDivGraphBuilder::build_node(const circle::OperatorT &,
+CircleNode *CircleFloorDivGraphBuilder::build_node(const circle::Operator *,
                                                    const std::vector<CircleNode *> &inputs,
                                                    loco::Graph *graph) const
 {

@@ -28,8 +28,8 @@ bool CircleLogisticGraphBuilder::validate(const ValidateArgs &args) const
   if (!GraphBuilder::validate(args, 1))
     return false;
 
-  const auto &inputs = args.op.inputs;
-  const auto &outputs = args.op.outputs;
+  const auto &inputs = wrap(args.op->inputs());
+  const auto &outputs = wrap(args.op->outputs());
   const auto &tensors = args.reader.tensors();
   if (tensors.at(inputs.at(0))->type != tensors.at(outputs[0])->type)
     return false;
@@ -37,7 +37,7 @@ bool CircleLogisticGraphBuilder::validate(const ValidateArgs &args) const
   return true;
 }
 
-CircleNode *CircleLogisticGraphBuilder::build_node(const circle::OperatorT &,
+CircleNode *CircleLogisticGraphBuilder::build_node(const circle::Operator *,
                                                    const std::vector<CircleNode *> &inputs,
                                                    loco::Graph *graph) const
 {

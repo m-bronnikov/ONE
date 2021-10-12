@@ -30,7 +30,7 @@ bool CircleGatherNdGraphBuilder::validate(const ValidateArgs &args) const
   if (!GraphBuilder::validate(args, 2))
     return false;
 
-  const auto &inputs = args.op.inputs;
+  const auto &inputs = wrap(args.op->inputs());
   auto &indices_tensor = args.reader.tensors()[inputs.at(1)];
 
   if (!(indices_tensor->type == circle::TensorType::TensorType_INT32 ||
@@ -42,7 +42,7 @@ bool CircleGatherNdGraphBuilder::validate(const ValidateArgs &args) const
   return true;
 }
 
-CircleNode *CircleGatherNdGraphBuilder::build_node(const circle::OperatorT &,
+CircleNode *CircleGatherNdGraphBuilder::build_node(const circle::Operator *,
                                                    const std::vector<CircleNode *> &inputs,
                                                    loco::Graph *graph) const
 {

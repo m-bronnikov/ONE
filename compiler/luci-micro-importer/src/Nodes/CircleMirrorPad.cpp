@@ -29,7 +29,7 @@ bool CircleMirrorPadGraphBuilder::validate(const ValidateArgs &args) const
   return GraphBuilder::validate(args, 2);
 }
 
-CircleNode *CircleMirrorPadGraphBuilder::build_node(const circle::OperatorT &op,
+CircleNode *CircleMirrorPadGraphBuilder::build_node(const circle::Operator *op,
                                                     const std::vector<CircleNode *> &inputs,
                                                     loco::Graph *graph) const
 {
@@ -37,7 +37,7 @@ CircleNode *CircleMirrorPadGraphBuilder::build_node(const circle::OperatorT &op,
   node->input(inputs.at(0));
   node->paddings(inputs.at(1));
 
-  const auto *options = op.builtin_options.AsMirrorPadOptions();
+  const auto *options = op->builtin_options_as_MirrorPadOptions()->UnPack();
   node->mode(luci_mirrorpad_mode(options->mode));
 
   return node;

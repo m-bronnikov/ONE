@@ -27,7 +27,7 @@ class CircleWhileGraphBuilder : public GraphBuilderBase
 public:
   bool validate(const ValidateArgs &args) const final;
 
-  CircleNode *build(const circle::OperatorT &op, GraphBuilderContext *context) const final;
+  CircleNode *build(const circle::Operator *op, GraphBuilderContext *context) const final;
 };
 
 } // namespace luci

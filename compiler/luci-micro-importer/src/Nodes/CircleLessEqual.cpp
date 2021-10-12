@@ -28,8 +28,8 @@ bool CircleLessEqualGraphBuilder::validate(const ValidateArgs &args) const
   if (!GraphBuilder::validate(args, 2))
     return false;
 
-  const auto &inputs = args.op.inputs;
-  const auto &outputs = args.op.outputs;
+  const auto &inputs = wrap(args.op->inputs());
+  const auto &outputs = wrap(args.op->outputs());
   const auto &tensors = args.reader.tensors();
 
   if (tensors[inputs.at(0)]->type != tensors[inputs.at(1)]->type)
@@ -40,7 +40,7 @@ bool CircleLessEqualGraphBuilder::validate(const ValidateArgs &args) const
   return tensors[outputs[0]]->type == circle::TensorType::TensorType_BOOL;
 }
 
-CircleNode *CircleLessEqualGraphBuilder::build_node(const circle::OperatorT &,
+CircleNode *CircleLessEqualGraphBuilder::build_node(const circle::Operator *,
                                                     const std::vector<CircleNode *> &inputs,
                                                     loco::Graph *graph) const
 {

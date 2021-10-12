@@ -30,14 +30,14 @@ bool CircleFakeQuantGraphBuilder::validate(const ValidateArgs &args) const
   return GraphBuilder::validate(args, 1);
 }
 
-CircleNode *CircleFakeQuantGraphBuilder::build_node(const circle::OperatorT &op,
+CircleNode *CircleFakeQuantGraphBuilder::build_node(const circle::Operator *op,
                                                     const std::vector<CircleNode *> &inputs,
                                                     loco::Graph *graph) const
 {
   auto *node = graph->nodes()->create<CircleFakeQuant>();
   node->inputs(inputs.at(0));
 
-  const auto *options = op.builtin_options.AsFakeQuantOptions();
+  const auto *options = op->builtin_options_as_FakeQuantOptions()->UnPack();
   node->min(options->min);
   node->max(options->max);
   node->num_bits(options->num_bits);

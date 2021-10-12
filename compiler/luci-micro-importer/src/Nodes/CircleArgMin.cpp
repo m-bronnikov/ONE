@@ -28,7 +28,7 @@ bool CircleArgMinGraphBuilder::validate(const ValidateArgs &args) const
   return GraphBuilder::validate(args, 2);
 }
 
-CircleNode *CircleArgMinGraphBuilder::build_node(const circle::OperatorT &op,
+CircleNode *CircleArgMinGraphBuilder::build_node(const circle::Operator *op,
                                                  const std::vector<CircleNode *> &inputs,
                                                  loco::Graph *graph) const
 {
@@ -36,7 +36,7 @@ CircleNode *CircleArgMinGraphBuilder::build_node(const circle::OperatorT &op,
   node->input(inputs.at(0));
   node->dimension(inputs.at(1));
 
-  const auto *options = op.builtin_options.AsArgMinOptions();
+  const auto *options = op->builtin_options_as_ArgMinOptions()->UnPack();
   node->output_type(luci_datatype(options->output_type));
 
   return node;

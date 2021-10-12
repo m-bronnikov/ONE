@@ -26,10 +26,10 @@ namespace luci
 
 bool CircleUniqueGraphBuilder::validate(const ValidateArgs &args) const
 {
-  if (args.op.inputs.size() != 1)
+  if (wrap(args.op->inputs()).size() != 1)
     return false;
 
-  if (args.op.outputs.size() != 2)
+  if (wrap(args.op->outputs()).size() != 2)
     return false;
 
   return true;
@@ -41,7 +41,7 @@ CircleNode *CircleUniqueGraphBuilder::build_node(const BuildNodeArgs &bna) const
 
   node->input(bna.input_nodes[0]);
 
-  const auto *options = bna.op.builtin_options.AsUniqueOptions();
+  const auto *options = bna.op->builtin_options_as_UniqueOptions()->UnPack();
   node->idx_out_type(luci_datatype(options->idx_out_type));
 
   return node;

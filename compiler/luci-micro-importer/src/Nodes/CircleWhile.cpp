@@ -27,10 +27,10 @@ namespace luci
 
 bool CircleWhileGraphBuilder::validate(const ValidateArgs &args) const
 {
-  const auto &inputs = args.op.inputs;
-  const auto *options = args.op.builtin_options.AsWhileOptions();
+  const auto &inputs = wrap(args.op->inputs());
+  const auto *options = args.op->builtin_options_as_WhileOptions()->UnPack();
 
-  if (inputs.size() != args.op.outputs.size())
+  if (inputs.size() != wrap(args.op->outputs()).size())
     return false;
 
   auto num_graphs = static_cast<int32_t>(args.reader.num_subgraph());
@@ -58,15 +58,15 @@ bool CircleWhileGraphBuilder::validate(const ValidateArgs &args) const
  *                       \- CircleWhileOut --- Node ---
  */
 
-CircleNode *CircleWhileGraphBuilder::build(const circle::OperatorT &op,
+CircleNode *CircleWhileGraphBuilder::build(const circle::Operator *op,
                                            GraphBuilderContext *context) const
 {
   assert(context != nullptr);
 
   auto graph = context->graph();
 
-  const std::vector<int32_t> &inputs = op.inputs;
-  const std::vector<int32_t> &outputs = op.outputs;
+  auto const inputs = wrap(op->inputs());
+  auto const outputs = wrap(op->outputs());
   const auto &tensors = context->reader()->tensors();
   const auto &opcodes = context->reader()->opcodes();
 
@@ -89,7 +89,7 @@ CircleNode *CircleWhileGraphBuilder::build(const circle::OperatorT &op,
     node->input(idx, input_nodes[idx]);
   }
 
-  const auto *options = op.builtin_options.AsWhileOptions();
+  const auto *options = op->builtin_options_as_WhileOptions()->UnPack();
   node->cond_branch(options->cond_subgraph_index);
   node->body_branch(options->body_subgraph_index);
 
@@ -98,7 +98,7 @@ CircleNode *CircleWhileGraphBuilder::build(const circle::OperatorT &op,
     // Lets use name of output 0 as While name
     const circle::TensorT &output_tensor = *tensors[outputs[0]];
     node->name(tensor_name(output_tensor));
-    node->op_version(opcodes[op.opcode_index].get()->version);
+    node->op_version(opcodes[op->opcode_index()].get()->version);
 
     // NOTE We don't set quantization for While itself but to virtual outputs
   }

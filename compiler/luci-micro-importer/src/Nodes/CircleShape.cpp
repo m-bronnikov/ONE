@@ -29,14 +29,14 @@ bool CircleShapeGraphBuilder::validate(const ValidateArgs &args) const
   return GraphBuilder::validate(args, 1);
 }
 
-CircleNode *CircleShapeGraphBuilder::build_node(const circle::OperatorT &op,
+CircleNode *CircleShapeGraphBuilder::build_node(const circle::Operator *op,
                                                 const std::vector<CircleNode *> &inputs,
                                                 loco::Graph *graph) const
 {
   auto *node = graph->nodes()->create<CircleShape>();
   node->input(inputs.at(0));
 
-  const auto *options = op.builtin_options.AsShapeOptions();
+  const auto *options = op->builtin_options_as_ShapeOptions()->UnPack();
   node->out_type(luci_datatype(options->out_type));
 
   return node;

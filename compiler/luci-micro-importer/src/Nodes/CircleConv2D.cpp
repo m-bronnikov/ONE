@@ -31,7 +31,7 @@ bool CircleConv2DGraphBuilder::validate(const ValidateArgs &args) const
   return GraphBuilder::validate(args, 3);
 }
 
-CircleNode *CircleConv2DGraphBuilder::build_node(const circle::OperatorT &op,
+CircleNode *CircleConv2DGraphBuilder::build_node(const circle::Operator *op,
                                                  const std::vector<CircleNode *> &inputs,
                                                  loco::Graph *graph) const
 {
@@ -42,7 +42,7 @@ CircleNode *CircleConv2DGraphBuilder::build_node(const circle::OperatorT &op,
   assert(inputs.size() == 3);
   node->bias(inputs.at(2));
 
-  const auto *options = op.builtin_options.AsConv2DOptions();
+  const auto *options = op->builtin_options_as_Conv2DOptions()->UnPack();
   node->padding(luci_padding(options->padding));
   node->stride()->w(options->stride_w);
   node->stride()->h(options->stride_h);

@@ -28,7 +28,7 @@ bool CircleSqrtGraphBuilder::validate(const ValidateArgs &args) const
   return GraphBuilder::validate(args, 1);
 }
 
-CircleNode *CircleSqrtGraphBuilder::build_node(const circle::OperatorT &,
+CircleNode *CircleSqrtGraphBuilder::build_node(const circle::Operator *,
                                                const std::vector<CircleNode *> &inputs,
                                                loco::Graph *graph) const
 {
