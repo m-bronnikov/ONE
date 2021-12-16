@@ -29,6 +29,13 @@ struct GraphBuilderSource
   virtual ~GraphBuilderSource() = default;
 
   /**
+   * @brief Returns constant node from given tensor's index and builder context
+   *
+   * TODO make argument only Tensor
+   */
+  virtual CircleNode *create_const(GraphBuilderContext *context, int32_t tensor_index) const = 0;
+
+  /**
    * @brief Returns registered GraphBuilder pointer for operator (nullptr if not present)
    */
   virtual const GraphBuilderBase *lookup(const circle::BuiltinOperator &op) const = 0;
@@ -49,6 +56,11 @@ public:
   }
 
 public:
+  /**
+   * @brief Returns constant node from given tensor's index and builder context
+   */
+  CircleNode *create_const(GraphBuilderContext *context, int32_t tensor_index) const final;
+
   /**
    * @brief Returns registered GraphBuilder pointer for operator or
    *        nullptr if not registered

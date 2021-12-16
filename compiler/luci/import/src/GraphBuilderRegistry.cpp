@@ -163,4 +163,10 @@ GraphBuilderRegistry::GraphBuilderRegistry()
   // BuiltinOperator_DENSIFY = 124,
 }
 
+CircleNode *GraphBuilderRegistry::create_const(GraphBuilderContext *context,
+                                               int32_t tensor_index) const
+{
+  return create_circleconst(context, tensor_index);
+}
+
 } // namespace luci
