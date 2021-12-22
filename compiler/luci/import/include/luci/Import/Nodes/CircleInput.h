@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Samsung Electronics Co., Ltd. All Rights Reserved
+ * Copyright (c) 2021 Samsung Electronics Co., Ltd. All Rights Reserved
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-#ifndef __LUCI_IMPORT_OP_CIRCLE_CONST_H__
-#define __LUCI_IMPORT_OP_CIRCLE_CONST_H__
+#ifndef __LUCI_IMPORT_OP_CIRCLE_INPUT_H__
+#define __LUCI_IMPORT_OP_CIRCLE_INPUT_H__
 
 #include "luci/Import/TensorBuilder.h"
 
@@ -25,14 +25,14 @@ namespace luci
 {
 
 /**
- * @brief Builder creates CircleConst node from Tensor with buffer.
+ * @brief Builder creates CircleInput nodes from Tensor.
  */
-class CircleConstTensorBuilder : public TensorBuilderImpl<TensorBuilderType::BUFFER>
+class CircleInputTensorBuilder : public TensorBuilderImpl<TensorBuilderType::INPUT>
 {
 public:
-  CircleNode *build(TensorIndex tensor_index, GraphBuilderContext *ctx) const final;
+  CircleNode *build(TensorIndex tensor_index, GraphBuilderContext *context) const final;
 };
 
 } // namespace luci
 
-#endif // __LUCI_IMPORT_OP_CIRCLE_CONST_H__
+#endif // __LUCI_IMPORT_OP_CIRCLE_INPUT_H__

@@ -17,31 +17,15 @@
 #include "luci/Import/Nodes/CircleConst.h"
 
 #include <luci/IR/Nodes/CircleConst.h>
-#include <luci/Log.h>
 
-#include <loco.h>
 #include <oops/UserExn.h>
 
 #include <cassert>
-#include <ostream>
 #include <string>
 #include <vector>
 
 namespace
 {
-
-std::ostream &operator<<(std::ostream &os, const luci::VectorWrapper<int32_t> &vect)
-{
-  uint32_t seq = 0;
-  for (const auto &v : vect)
-  {
-    if (seq)
-      os << ", ";
-    os << v;
-    seq++;
-  }
-  return os;
-}
 
 using namespace luci;
 
@@ -107,9 +91,10 @@ void copy_data<loco::DataType::STRING>(const VectorWrapper<uint8_t> &raw_data,
 namespace luci
 {
 
-CircleConst *create_circleconst(GraphBuilderContext *context, int32_t tensor_index)
+CircleNode *CircleConstTensorBuilder::build(TensorIndex tensor_index,
+                                            GraphBuilderContext *context) const
 {
-  LOGGER(l);
+  assert(tensor_index >= 0);
 
   auto graph = context->graph();
   auto reader = context->reader();
@@ -149,8 +134,6 @@ CircleConst *create_circleconst(GraphBuilderContext *context, int32_t tensor_ind
   auto const_node = graph->nodes()->create<CircleConst>();
   copy_tensor_attributes(const_tensor, const_node);
   const_node->shape_status(luci::ShapeStatus::VALID);
-  INFO(l) << "[luci] NodeFinder const_node(" << tensor_index << ") -> " << const_node << " "
-          << const_dims << std::endl;
   if (num_elements > 0)
   {
     switch (luci_datatype(const_tensor->type()))
