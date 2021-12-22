@@ -23,7 +23,7 @@
 namespace luci
 {
 
-GraphBuilderRegistry::GraphBuilderRegistry()
+GraphBuilderRegistry::GraphBuilderRegistry() : _tensor_builders(uint32_t(TensorBuilderType::COUNT))
 {
 #define CIRCLE_NODE(OPCODE, CLASS) add(circle::BuiltinOperator_##OPCODE, std::make_unique<CLASS>());
 
@@ -161,6 +161,14 @@ GraphBuilderRegistry::GraphBuilderRegistry()
   // BuiltinOperator_ARG_MAX = 56,
   // BuiltinOperator_HARD_SWISH = 117,
   // BuiltinOperator_DENSIFY = 124,
+
+#define CIRCLE_VNODE(OPCODE, CLASS) add(std::make_unique<CLASS>())
+
+  CIRCLE_VNODE(CIRCLEINPUT, CircleInputTensorBuilder);
+  CIRCLE_VNODE(CIRCLECONST, CircleConstTensorBuilder);
+  CIRCLE_VNODE(CIRCLEOUTPUT, CircleOutputTensorBuilder);
+
+#undef CIRCLE_VNODE
 }
 
 } // namespace luci

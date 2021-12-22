@@ -89,10 +89,10 @@ void convert_graph(const luci::GraphBuilderSource &source, luci::CircleReader &r
   // graph inputs; there are no input nodes in TFlite but just Tensors
   // creating virtual input nodes will make possible to connect nodes that uses them
   // all attributes of tensor should be copied to CircleInput node
-  luci::CircleInputTensorBuilder input_builder;
+  auto input_builder = source.lookup(luci::TensorBuilderType::INPUT);
   for (const auto input : reader.inputs())
   {
-    auto *input_node = input_builder.build(input, &gb_context);
+    auto *input_node = input_builder->build(input, &gb_context);
 
     INFO(l) << "[luci] NodeFinder INPUT(" << input << ") = " << input_node << std::endl;
     nodefinder->enroll(input, input_node);
@@ -103,13 +103,13 @@ void convert_graph(const luci::GraphBuilderSource &source, luci::CircleReader &r
 
   // Create CircleNodes for constant tensors.
   // NOTE Origin is intentionally not provided for constants.
-  luci::CircleConstTensorBuilder const_builder;
+  auto const_builder = source.lookup(luci::TensorBuilderType::BUFFER);
   for (int32_t i = 0; i < tensors.size(); ++i)
   {
     const auto tensor = tensors[i];
     assert(tensor != nullptr);
 
-    auto *const_node = const_builder.build(i, &gb_context);
+    auto *const_node = const_builder->build(i, &gb_context);
     if (const_node != nullptr)
     {
       nodefinder->enroll(i, const_node);
@@ -155,10 +155,10 @@ void convert_graph(const luci::GraphBuilderSource &source, luci::CircleReader &r
   }
 
   // graph outputs
-  luci::CircleOutputTensorBuilder output_builder;
+  auto output_builder = source.lookup(luci::TensorBuilderType::OUTPUT);
   for (auto output : reader.outputs())
   {
-    auto output_node = output_builder.build(output, &gb_context);
+    auto output_node = output_builder->build(output, &gb_context);
 
     INFO(l) << "[luci] NodeFinder OUTPUT(" << output << ") = " << output_node << std::endl;
   }

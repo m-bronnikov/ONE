@@ -18,6 +18,7 @@
 #define __LUCI_IMPORT_GRAPH_BUILDER_REGISTRY_H__
 
 #include "GraphBuilderBase.h"
+#include "TensorBuilder.h"
 
 #include <map>
 
@@ -32,6 +33,11 @@ struct GraphBuilderSource
    * @brief Returns registered GraphBuilder pointer for operator (nullptr if not present)
    */
   virtual const GraphBuilderBase *lookup(const circle::BuiltinOperator &op) const = 0;
+
+  /**
+   * @brief Returns registered TensorBuilder pointer for type (nullptr if not present)
+   */
+  virtual const TensorBuilder *lookup(TensorBuilderType type) const = 0;
 };
 
 /**
@@ -61,6 +67,17 @@ public:
     return _builder_map.at(op).get();
   }
 
+  /**
+   * @brief Returns registered TensorBuilder pointer for type or nullptr if not registered
+   */
+  const TensorBuilder *lookup(TensorBuilderType type) const final
+  {
+    if (_tensor_builders.at(uint32_t(type)) == nullptr)
+      return (_parent == nullptr) ? nullptr : _parent->lookup(type);
+
+    return _tensor_builders.at(uint32_t(type)).get();
+  }
+
   static GraphBuilderRegistry &get()
   {
     static GraphBuilderRegistry me;
@@ -73,11 +90,17 @@ public:
     _builder_map[op] = std::move(builder);
   }
 
+  void add(std::unique_ptr<TensorBuilder> &&builder)
+  {
+    _tensor_builders.at(uint32_t(builder->builder_type())) = std::move(builder);
+  }
+
 private:
   const GraphBuilderSource *_parent = nullptr;
 
 private:
   std::map<const circle::BuiltinOperator, std::unique_ptr<GraphBuilderBase>> _builder_map;
+  std::vector<std::unique_ptr<TensorBuilder>> _tensor_builders;
 };
 
 } // namespace luci
